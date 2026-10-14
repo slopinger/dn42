@@ -1,0 +1,10 @@
+inetnum:            172.20.0.96 - 172.20.0.127
+cidr:               172.20.0.96/27
+netname:            SLOP-NET-V4
+descr:              Slop IPv4 Network
+country:            DE
+admin-c:            SLOP-DN42
+tech-c:             SLOP-DN42
+mnt-by:             SLOP-MNT
+status:             ASSIGNED
+source:             DN42

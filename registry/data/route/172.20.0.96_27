@@ -1,0 +1,5 @@
+route:              172.20.0.96/27
+origin:             AS4242420125
+max-length:         27
+mnt-by:             SLOP-MNT
+source:             DN42

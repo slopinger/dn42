@@ -1,0 +1,242 @@
+#!/usr/bin/env python3
+"""
+dn42ctl - DN42 management utility for slop (AS4242420125)
+"""
+
+import sys
+import os
+import argparse
+import subprocess
+
+LOCAL_ASN = 4242420125
+LOCAL_IPV4 = "172.20.0.97"
+LOCAL_IPV6 = "fdd4:af47:dcfa::1"
+LOCAL_SUBNET_V4 = "172.20.0.96/27"
+LOCAL_SUBNET_V6 = "fdd4:af47:dcfa::/48"
+WG_PUBKEY_FILE = "/etc/wireguard/dn42.pub"
+WG_PRIVKEY_FILE = "/etc/wireguard/dn42.key"
+BIRD_PEERS_DIR = "/etc/bird/peers"
+SYSTEMD_NET_DIR = "/etc/systemd/network"
+
+
+def run(cmd, check=False, capture=True):
+    res = subprocess.run(cmd, shell=True, text=True, capture_output=capture)
+    if check and res.returncode != 0:
+        print(f"Error running: {cmd}\n{res.stderr}", file=sys.stderr)
+        sys.exit(res.returncode)
+    return res
+
+
+def get_pubkey():
+    if os.path.exists(WG_PUBKEY_FILE):
+        with open(WG_PUBKEY_FILE, "r") as f:
+            return f.read().strip()
+    return "Not generated yet"
+
+
+def cmd_status(args):
+    print("=" * 60)
+    print(f" DN42 Node Status - Slop (AS{LOCAL_ASN})")
+    print("=" * 60)
+    print(f"Autonomous System : AS{LOCAL_ASN}")
+    print(f"Router ID / IPv4  : {LOCAL_IPV4} (Allocated: {LOCAL_SUBNET_V4})")
+    print(f"Router IPv6       : {LOCAL_IPV6} (Allocated: {LOCAL_SUBNET_V6})")
+    print(f"WireGuard PubKey  : {get_pubkey()}")
+    print("-" * 60)
+
+    # Dummy link status
+    dummy = run("networkctl status dn42-dummy 2>/dev/null")
+    if "routable (configured)" in dummy.stdout:
+        print("Loopback Interface: UP (dn42-dummy routable)")
+    else:
+        print("Loopback Interface: WARNING - dn42-dummy not routable")
+
+    # BIRD status
+    bird_stat = run("sudo birdc show status 2>/dev/null")
+    if bird_stat.returncode == 0:
+        lines = [l.strip() for l in bird_stat.stdout.splitlines() if l.strip()]
+        for l in lines[1:4]:
+            print(f"BIRD Routing Daemon: {l}")
+    else:
+        print("BIRD Routing Daemon: Inactive or unavailable")
+
+    # ROA counts
+    roa_v4 = run("wc -l /etc/bird/roa_dn42.conf 2>/dev/null")
+    roa_v6 = run("wc -l /etc/bird/roa_dn42_v6.conf 2>/dev/null")
+    v4_cnt = roa_v4.stdout.split()[0] if roa_v4.returncode == 0 else "0"
+    v6_cnt = roa_v6.stdout.split()[0] if roa_v6.returncode == 0 else "0"
+    print(f"ROA Rules Loaded  : {v4_cnt} IPv4, {v6_cnt} IPv6")
+
+    # Peers
+    print("-" * 60)
+    print("Configured Peers:")
+    if os.path.exists(BIRD_PEERS_DIR):
+        peer_files = [f for f in os.listdir(BIRD_PEERS_DIR) if f.endswith(".conf")]
+        if peer_files:
+            for pf in peer_files:
+                name = pf[:-5]
+                print(f" - {name} ({os.path.join(BIRD_PEERS_DIR, pf)})")
+        else:
+            print(" (No peer sessions configured yet in /etc/bird/peers/)")
+    else:
+        print(" (No /etc/bird/peers directory found)")
+    print("=" * 60)
+
+
+def cmd_peers(args):
+    print("BIRD BGP Protocols:")
+    res = run("sudo birdc show protocols", capture=False)
+    if res.returncode != 0:
+        print("Failed to query BIRD daemon.", file=sys.stderr)
+
+
+def cmd_routes(args):
+    target = f" {args.prefix}" if args.prefix else ""
+    cmd = f"sudo birdc show route{target}"
+    run(cmd, capture=False)
+
+
+def cmd_update_roa(args):
+    print("Updating ROA tables...")
+    res = run("sudo /usr/local/bin/dn42-update-roa.sh", capture=False)
+    if res.returncode == 0:
+        print("ROA tables updated successfully.")
+    else:
+        print("Failed to update ROA tables.", file=sys.stderr)
+
+
+def cmd_add_peer(args):
+    name = args.name.lower().replace("_", "-")
+    asn = args.asn.replace("AS", "").strip()
+    endpoint = args.endpoint
+    peer_pubkey = args.pubkey
+    peer_ll_v6 = args.peer_ll_v6 or "fe80::1"
+    my_ll_v6 = args.my_ll_v6 or "fe80::2"
+    listen_port = args.port or (20000 + (int(asn) % 10000))
+    iface = f"dn42-{name}"
+
+    print(f"Configuring peer: {name} (AS{asn}) on interface {iface}...")
+
+    # 1. systemd-networkd netdev
+    netdev_path = f"/etc/systemd/network/30-{iface}.netdev"
+    netdev_content = f"""[NetDev]
+Name={iface}
+Kind=wireguard
+Description=DN42 WireGuard peer {name} (AS{asn})
+
+[WireGuard]
+PrivateKeyFile={WG_PRIVKEY_FILE}
+ListenPort={listen_port}
+
+[WireGuardPeer]
+PublicKey={peer_pubkey}
+Endpoint={endpoint}
+AllowedIPs=0.0.0.0/0
+AllowedIPs=::/0
+PersistentKeepalive=25
+"""
+
+    # 2. systemd-networkd network
+    network_path = f"/etc/systemd/network/30-{iface}.network"
+    network_content = f"""[Match]
+Name={iface}
+
+[Network]
+Address={my_ll_v6}/64
+LinkLocalAddressing=ipv6
+IPv6AcceptRA=no
+
+[Route]
+Destination={peer_ll_v6}
+Scope=link
+"""
+
+    # 3. BIRD peer configuration (MP-BGP over IPv6 link-local with Extended Next Hop)
+    bird_peer_path = f"/etc/bird/peers/{name}.conf"
+    bird_peer_content = f"""# DN42 Peer: {name} (AS{asn})
+protocol bgp dn42_{name.replace('-', '_')} from dnpeers {{
+    enable extended messages on;
+    neighbor {peer_ll_v6}%{iface} as {asn};
+    interface "{iface}";
+    direct;
+    ipv4 {{
+        extended next hop on;
+    }};
+}}
+"""
+
+    # Write files with sudo
+    p1 = subprocess.Popen(["sudo", "tee", netdev_path], stdin=subprocess.PIPE, text=True)
+    p1.communicate(netdev_content)
+    p2 = subprocess.Popen(["sudo", "tee", network_path], stdin=subprocess.PIPE, text=True)
+    p2.communicate(network_content)
+    p3 = subprocess.Popen(["sudo", "tee", bird_peer_path], stdin=subprocess.PIPE, text=True)
+    p3.communicate(bird_peer_content)
+
+    print("Reconfiguring systemd-networkd and BIRD...")
+    run("sudo networkctl reload")
+    run("sudo birdc configure")
+    print(f"Peer {name} configured successfully!")
+    print(f"Status check: sudo birdc show protocols dn42_{name.replace('-', '_')}")
+
+
+def cmd_del_peer(args):
+    name = args.name.lower().replace("_", "-")
+    iface = f"dn42-{name}"
+    netdev_path = f"/etc/systemd/network/30-{iface}.netdev"
+    network_path = f"/etc/systemd/network/30-{iface}.network"
+    bird_peer_path = f"/etc/bird/peers/{name}.conf"
+
+    for p in [netdev_path, network_path, bird_peer_path]:
+        if os.path.exists(p):
+            run(f"sudo rm -f {p}")
+            print(f"Removed {p}")
+
+    run("sudo networkctl reload")
+    run("sudo birdc configure")
+    print(f"Peer {name} removed.")
+
+
+def main():
+    parser = argparse.ArgumentParser(description="dn42ctl - DN42 management utility for slop")
+    subparsers = parser.add_subparsers(dest="subcommand", required=True)
+
+    # status
+    p_stat = subparsers.add_parser("status", help="Show DN42 node and BIRD status")
+    p_stat.set_defaults(func=cmd_status)
+
+    # peers
+    p_peers = subparsers.add_parser("peers", help="List BGP peers and session state")
+    p_peers.set_defaults(func=cmd_peers)
+
+    # routes
+    p_routes = subparsers.add_parser("routes", help="Show routes received from peers")
+    p_routes.add_argument("prefix", nargs="?", help="Optional prefix filter")
+    p_routes.set_defaults(func=cmd_routes)
+
+    # update-roa
+    p_roa = subparsers.add_parser("update-roa", help="Trigger manual ROA update")
+    p_roa.set_defaults(func=cmd_update_roa)
+
+    # add-peer
+    p_add = subparsers.add_parser("add-peer", help="Add a new DN42 WireGuard + BGP peer")
+    p_add.add_argument("name", help="Peer identifier name (e.g. kioubit-de)")
+    p_add.add_argument("--asn", required=True, help="Peer AS number (e.g. 4242423914)")
+    p_add.add_argument("--endpoint", required=True, help="Peer WireGuard endpoint host:port")
+    p_add.add_argument("--pubkey", required=True, help="Peer WireGuard public key")
+    p_add.add_argument("--peer-ll-v6", help="Peer link-local IPv6 (default fe80::1)")
+    p_add.add_argument("--my-ll-v6", help="Our link-local IPv6 (default fe80::2)")
+    p_add.add_argument("--port", type=int, help="Local listen port (default 20000 + last 4 digits of peer ASN)")
+    p_add.set_defaults(func=cmd_add_peer)
+
+    # del-peer
+    p_del = subparsers.add_parser("del-peer", help="Remove a peer configuration")
+    p_del.add_argument("name", help="Peer identifier name")
+    p_del.set_defaults(func=cmd_del_peer)
+
+    args = parser.parse_args()
+    args.func(args)
+
+
+if __name__ == "__main__":
+    main()

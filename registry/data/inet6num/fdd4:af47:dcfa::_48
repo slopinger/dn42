@@ -1,0 +1,10 @@
+inet6num:           fdd4:af47:dcfa:0000:0000:0000:0000:0000 - fdd4:af47:dcfa:ffff:ffff:ffff:ffff:ffff
+cidr:               fdd4:af47:dcfa::/48
+netname:            SLOP-NET-V6
+descr:              Slop IPv6 Network
+country:            DE
+admin-c:            SLOP-DN42
+tech-c:             SLOP-DN42
+mnt-by:             SLOP-MNT
+status:             ASSIGNED
+source:             DN42

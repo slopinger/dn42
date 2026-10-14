@@ -1,0 +1,5 @@
+route6:             fdd4:af47:dcfa::/48
+origin:             AS4242420125
+max-length:         48
+mnt-by:             SLOP-MNT
+source:             DN42

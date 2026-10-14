@@ -1,0 +1,8 @@
+[Unit]
+Description=Update DN42 ROA tables for BIRD
+After=network-online.target bird.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/dn42-update-roa.sh
