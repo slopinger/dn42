@@ -15,3 +15,5 @@ Keep this file and README current whenever allocation, peer tooling or operation
   Never print/commit WireGuard private keys or account/API credentials. Public keys are not private keys.
 - Check git status/history before committing; use an isolated worktree if another session is active.
   Sign/push changes regularly. Registry submission is a distinct external action, not a syntax check.
+- Use small commits: one logical change per commit (with its tests/docs), each passing the checks above.
+  Don't bundle unrelated changes or a whole session's work into one commit.
