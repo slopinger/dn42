@@ -1,0 +1,16 @@
+[Unit]
+Description=DN42 Auto-Peer Daemon (waits for PR merge and establishes peers)
+After=network.target bird.service systemd-networkd.service
+Wants=bird.service systemd-networkd.service
+
+[Service]
+Type=simple
+User=slop
+Group=slop
+WorkingDirectory=/home/slop/src/dn42
+ExecStart=/home/slop/.gemini/antigravity-cli/brain/1b870dee-b202-4b03-be21-4d504ed30d5e/scratch/venv/bin/python /home/slop/src/dn42/bin/dn42-auto-peer-daemon.py
+Restart=on-failure
+RestartSec=15
+
+[Install]
+WantedBy=multi-user.target
