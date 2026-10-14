@@ -9,9 +9,9 @@ import argparse
 import subprocess
 
 LOCAL_ASN = 4242420125
-LOCAL_IPV4 = "172.20.0.97"
+LOCAL_IPV4 = "172.22.64.129"
 LOCAL_IPV6 = "fdd4:af47:dcfa::1"
-LOCAL_SUBNET_V4 = "172.20.0.96/27"
+LOCAL_SUBNET_V4 = "172.22.64.128/27"
 LOCAL_SUBNET_V6 = "fdd4:af47:dcfa::/48"
 WG_PUBKEY_FILE = "/etc/wireguard/dn42.pub"
 WG_PRIVKEY_FILE = "/etc/wireguard/dn42.key"

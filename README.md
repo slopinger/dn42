@@ -6,16 +6,16 @@ This repository contains the complete DN42 network configuration, automated tool
 
 ## 🌐 Network Allocation Details
 
-The following resources have been allocated and validated against the live DN42 Registry database:
+Configured resources and prepared registry objects are listed below. Verify registry acceptance separately; a local object or running router is not proof of accepted registration.
 
 | Parameter | Value | Details |
 |---|---|---|
-| **Autonomous System Number (ASN)** | `AS4242420125` | Validated free in standard range `4242420000–4242423999` |
+| **Autonomous System Number (ASN)** | `AS4242420125` | Configured local ASN; verify registry acceptance separately |
 | **IPv6 Prefix** | `fdd4:af47:dcfa::/48` | RFC 4193 ULA generated via host MAC (`ens18`) + NTP timestamp |
-| **IPv4 Subnet** | `172.20.0.96/27` | Allocated from parent block `172.20.0.0/18` (policy: open) |
-| **Router IPv4 (Dummy Loopback)** | `172.20.0.97/27` | Interface `dn42-dummy` |
+| **IPv4 Subnet** | `172.22.64.128/27` | Configured prefix matching the prepared registry objects and live router |
+| **Router IPv4 (Dummy Loopback)** | `172.22.64.129/27` | Interface `dn42-dummy` |
 | **Router IPv6 (Dummy Loopback)** | `fdd4:af47:dcfa::1/48` | Interface `dn42-dummy` |
-| **WireGuard Public Key** | `sgYSxYeBQX9IMbcj7zv6UxYYq7QQPDfMdaxHFlTeckY=` | Private key at `/etc/wireguard/dn42.key` (mode 600) |
+| **WireGuard Public Key** | `sgYSxYeBQX9IMbcj7zv6UxYYq7QQPDfMdaxHFlTeckY=` | Private key at `/etc/wireguard/dn42.key` (0640, root:systemd-network) |
 | **Registry Signing Key** | `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOTofPAGRTdGiTl7oeIWupx4euhHVkR3TyPsECnq2fWJ` | `slop@freifick.net` (`~/.ssh/id_ed25519_signing`) |
 | **Maintainer Handle** | `SLOP-MNT` | Authenticated with SSH commit signing key |
 | **Person Handle** | `SLOP-DN42` | Contact email `slop@freifick.net` |
@@ -31,11 +31,11 @@ The following resources have been allocated and validated against the live DN42 
 
 2. **Loopback Interface (`dn42-dummy`)**:
    - Managed via `systemd-networkd` (`/etc/systemd/network/20-dn42-dummy.netdev` and `20-dn42-dummy.network`).
-   - Ensures local addresses `172.20.0.97/27` and `fdd4:af47:dcfa::1/48` are always online so BIRD can bind and install routes to the kernel without netlink failures.
+   - Ensures local addresses `172.22.64.129/27` and `fdd4:af47:dcfa::1/48` are always online so BIRD can bind and install routes to the kernel without netlink failures.
 
 3. **BIRD 3 Routing Daemon**:
    - Config file: `/etc/bird/bird.conf` (symlinked from `/etc/bird.conf`).
-   - Router ID: `172.20.0.97`.
+   - Router ID: `172.22.64.129`.
    - Master tables `master4` and `master6`.
    - Validates incoming route announcements against DN42 Route Origin Authorization (ROA) tables (`dn42_roa` and `dn42_roa_v6`) downloaded from Burble's live mirror.
    - Rejects bogons, out-of-range subnets, and routes failing ROA validation.
@@ -69,13 +69,13 @@ The following resources have been allocated and validated against the live DN42 
 │       ├── inet6num/
 │       │   └── fdd4:af47:dcfa::_48
 │       ├── inetnum/
-│       │   └── 172.20.0.96_27
+│       │   └── 172.22.64.128_27
 │       ├── mntner/
 │       │   └── SLOP-MNT
 │       ├── person/
 │       │   └── SLOP-DN42
 │       ├── route/
-│       │   └── 172.20.0.96_27
+│       │   └── 172.22.64.128_27
 │       └── route6/
 │           └── fdd4:af47:dcfa::_48
 └── systemd/
@@ -164,7 +164,7 @@ Because DN42 is a decentralized network that requires cryptographic verification
      ```bash
      cd /tmp/dn42-registry
      git add data/
-     git commit -S -m "Register SLOP-MNT, AS4242420125, 172.20.0.96/27, fdd4:af47:dcfa::/48"
+     git commit -S -m "Register SLOP-MNT, AS4242420125, 172.22.64.128/27, fdd4:af47:dcfa::/48"
      git push origin master
      ```
 

@@ -2,5 +2,5 @@
 Name=dn42-dummy
 
 [Network]
-Address=172.20.0.97/27
+Address=172.22.64.129/27
 Address=fdd4:af47:dcfa::1/48

@@ -46,7 +46,7 @@ fi
 
 echo "--> Creating signed git commit..."
 git add data/
-git commit -S -m "Register SLOP-MNT, AS4242420125, 172.20.0.96/27, fdd4:af47:dcfa::/48"
+git commit -S -m "Register SLOP-MNT, AS4242420125, 172.22.64.128/27, fdd4:af47:dcfa::/48"
 
 echo "--> Pushing to fork origin master..."
 git push origin master
