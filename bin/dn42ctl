@@ -113,7 +113,7 @@ def cmd_add_peer(args):
     peer_ll_v6 = args.peer_ll_v6 or "fe80::1"
     my_ll_v6 = args.my_ll_v6 or "fe80::2"
     listen_port = args.port or (20000 + (int(asn) % 10000))
-    iface = f"dn42-{name}"
+    iface = f"dn_{name[:12]}"
 
     print(f"Configuring peer: {name} (AS{asn}) on interface {iface}...")
 
@@ -156,7 +156,7 @@ Scope=link
     bird_peer_content = f"""# DN42 Peer: {name} (AS{asn})
 protocol bgp dn42_{name.replace('-', '_')} from dnpeers {{
     enable extended messages on;
-    neighbor {peer_ll_v6}%{iface} as {asn};
+    neighbor {peer_ll_v6} as {asn};
     interface "{iface}";
     direct;
     ipv4 {{
@@ -182,7 +182,7 @@ protocol bgp dn42_{name.replace('-', '_')} from dnpeers {{
 
 def cmd_del_peer(args):
     name = args.name.lower().replace("_", "-")
-    iface = f"dn42-{name}"
+    iface = f"dn_{name[:12]}"
     netdev_path = f"/etc/systemd/network/30-{iface}.netdev"
     network_path = f"/etc/systemd/network/30-{iface}.network"
     bird_peer_path = f"/etc/bird/peers/{name}.conf"

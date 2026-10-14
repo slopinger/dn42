@@ -23,8 +23,11 @@ sudo mkdir -p /etc/wireguard
 sudo chmod 755 /etc/wireguard
 if [ ! -f /etc/wireguard/dn42.key ]; then
     sudo wg genkey | sudo tee /etc/wireguard/dn42.key | sudo wg pubkey | sudo tee /etc/wireguard/dn42.pub > /dev/null
-    sudo chmod 600 /etc/wireguard/dn42.key
+    sudo chown root:systemd-network /etc/wireguard/dn42.key
+    sudo chmod 640 /etc/wireguard/dn42.key
     sudo chmod 644 /etc/wireguard/dn42.pub
+    sudo chown root:systemd-network /etc/wireguard/dn42.key 2>/dev/null || true
+    sudo chmod 640 /etc/wireguard/dn42.key 2>/dev/null || true
 fi
 
 # 4. BIRD 3 configuration & ROA

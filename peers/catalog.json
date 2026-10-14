@@ -1,0 +1,92 @@
+[
+  {
+    "name": "baragoon_fra",
+    "asn": "4242421732",
+    "network": "BaragoonNetworks (Frankfurt, DE)",
+    "endpoint": "chr-fr01.as215887.net:20125",
+    "pubkey": "SpFk6mynvJCrMvAf/uD8OOCm+2KlAb91tdXkWNbbNV8=",
+    "peer_ll_v6": "fe80::1732",
+    "my_ll_v6": "fe80::2",
+    "port": 20125,
+    "method": "github_pr",
+    "repo": "https://github.com/baragoon/dn42-as4242421732"
+  },
+  {
+    "name": "baragoon_ams",
+    "asn": "4242421732",
+    "network": "BaragoonNetworks (Amsterdam, NL)",
+    "endpoint": "chr-am02.as215887.net:20125",
+    "pubkey": "HL0p+0CWR35x2BVW4cdlp8F/FT+ZKyrvqDcL2LnzV3c=",
+    "peer_ll_v6": "fe80::1732",
+    "my_ll_v6": "fe80::2",
+    "port": 20125,
+    "method": "github_pr",
+    "repo": "https://github.com/baragoon/dn42-as4242421732"
+  },
+  {
+    "name": "baragoon_lon",
+    "asn": "4242421732",
+    "network": "BaragoonNetworks (London, UK)",
+    "endpoint": "chr-lo01.as215887.net:20125",
+    "pubkey": "qe7bmJgd2ftxE9OYPL6Q4gZK6lvSqKPn5BynDXHsvzM=",
+    "peer_ll_v6": "fe80::1732",
+    "my_ll_v6": "fe80::2",
+    "port": 20125,
+    "method": "github_pr",
+    "repo": "https://github.com/baragoon/dn42-as4242421732"
+  },
+  {
+    "name": "baragoon_zur",
+    "asn": "4242421732",
+    "network": "BaragoonNetworks (Zurich, CH)",
+    "endpoint": "chr-zu02.as215887.net:20125",
+    "pubkey": "KPv2AMdW5raT6Ozq9vHvU3t8u9NfiBv/339V0gH70mY=",
+    "peer_ll_v6": "fe80::1732",
+    "my_ll_v6": "fe80::2",
+    "port": 20125,
+    "method": "github_pr",
+    "repo": "https://github.com/baragoon/dn42-as4242421732"
+  },
+  {
+    "name": "kioubit",
+    "asn": "4242423914",
+    "network": "Kioubit Network (Frankfurt/Falkenstein)",
+    "portal": "https://dn42.g-load.eu/",
+    "method": "autopeer_portal"
+  },
+  {
+    "name": "routedbits",
+    "asn": "4242420207",
+    "network": "RoutedBits (Europe/North America)",
+    "portal": "https://dn42.routedbits.io/",
+    "method": "autopeer_portal"
+  },
+  {
+    "name": "nedifinita",
+    "asn": "4242420454",
+    "network": "Nedifinita Network",
+    "portal": "https://peer-dn42.nedifinita.com/",
+    "method": "autopeer_portal"
+  },
+  {
+    "name": "headscarf",
+    "asn": "4242420842",
+    "network": "HEADSCARF175 (Frankfurt, DE)",
+    "portal": "https://peer.headscarf175.net/",
+    "method": "autopeer_portal"
+  },
+  {
+    "name": "achsulfate",
+    "asn": "4242423310",
+    "network": "ACh Sulfate",
+    "portal": "https://peer42.tmpfs.dev/",
+    "method": "autopeer_portal"
+  },
+  {
+    "name": "sabrina",
+    "asn": "4242421810",
+    "network": "Sabrina's testnet (Frankfurt/SG/US)",
+    "portal": "https://dn42.sabrinaishere.party/peer",
+    "method": "autopeer_portal"
+  }
+]
