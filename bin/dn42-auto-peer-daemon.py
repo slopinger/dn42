@@ -97,8 +97,16 @@ def setup_all_peers():
     kb_ok = setup_kioubit()
     return ff_ok or kb_ok
 
+def update_roa_tables():
+    log("Checking/updating DN42 ROA tables...")
+    code, out, err = run_cmd("sudo /usr/local/bin/dn42-update-roa.sh")
+    if code == 0:
+        log("ROA tables updated successfully.")
+    else:
+        log(f"ROA update error: {err}")
+
 def verify_bgp_and_connectivity():
-    code, out, _ = run_cmd("birdc show protocols")
+    code, out, _ = run_cmd("sudo birdc show protocols")
     log(f"BIRD Protocols:\n{out}")
     
     established = []
@@ -108,11 +116,15 @@ def verify_bgp_and_connectivity():
             
     log(f"Established BGP sessions ({len(established)}): {established}")
     
-    # Test ping
+    # Test ping Anycast DNS IPv4 and IPv6
     code4, ping4, _ = run_cmd("ping -c 3 -W 2 172.20.0.53")
-    log(f"Ping 172.20.0.53 (DN42 Anycast DNS):\n{ping4}")
+    log(f"Ping 172.20.0.53 (DN42 Anycast DNS IPv4):\n{ping4}")
     
-    return len(established), established
+    code6, ping6, _ = run_cmd("ping -c 3 -W 2 fd42:d42:d42:54::1")
+    log(f"Ping fd42:d42:d42:54::1 (DN42 Anycast DNS IPv6):\n{ping6}")
+    
+    ping_ok = (code4 == 0 or code6 == 0)
+    return len(established), established, ping_ok
 
 def update_docs_and_git(peer_count, peers):
     log("Updating documentation and committing to internal GitLab...")
@@ -121,14 +133,17 @@ def update_docs_and_git(peer_count, peers):
             content = f.read()
         
         peer_summary = f"\n- **DN42 Active Peers**: {peer_count} peers established ({', '.join(peers) if peers else 'none'}).\n"
-        if "DN42 Active Peers" not in content:
+        if "DN42 Active Peers" in content:
+            content = re.sub(r"- \*\*DN42 Active Peers\*\*:[^\n]+", f"- **DN42 Active Peers**: {peer_count} peers established ({', '.join(peers) if peers else 'none'}).", content)
+        else:
             content += peer_summary
-            with open("/home/slop/CLAUDE.md", "w") as f:
-                f.write(content)
+            
+        with open("/home/slop/CLAUDE.md", "w") as f:
+            f.write(content)
                 
         # Git commit in ~/src/dn42
         run_cmd("git -C /home/slop/src/dn42 add -A")
-        run_cmd('git -C /home/slop/src/dn42 commit -m "Auto-established DN42 peering sessions after registry merge" || true')
+        run_cmd(f'git -C /home/slop/src/dn42 commit -m "Auto-established DN42 peering sessions ({peer_count} peers)" || true')
         run_cmd("git -C /home/slop/src/dn42 push origin main || true")
         log("Internal GitLab repo updated.")
     except Exception as e:
@@ -147,31 +162,38 @@ def main():
                 log(f"PR #7531 IS MERGED! Merged at: {status['merged_at']}")
                 merged = True
                 break
-        time.sleep(60)
+        time.sleep(30)
 
-    # Allow registry sync propagation
-    log("Waiting 30 seconds for registry distribution across mirrors...")
-    time.sleep(30)
-
-    # Attempt peering
-    peers_ok = False
-    for attempt in range(1, 20):
-        log(f"Peering setup attempt #{attempt}...")
-        success = setup_all_peers()
-        if success:
-            log("Peering automation succeeded!")
-            peers_ok = True
-            break
-        log("Peering not ready yet, waiting 60s for registry sync...")
-        time.sleep(60)
-
-    # Wait for BGP convergence
-    log("Waiting 15 seconds for BGP convergence...")
-    time.sleep(15)
-
-    count, peers = verify_bgp_and_connectivity()
-    update_docs_and_git(count, peers)
-    log(f"DN42 Peering setup complete. Total peers: {count}.")
+    log("PR is merged! Entering active peering loop...")
+    
+    # Loop until we have multiple peers and ping connectivity
+    iteration = 0
+    while True:
+        iteration += 1
+        log(f"=== Peering loop iteration #{iteration} ===")
+        
+        # 1. Update ROA
+        update_roa_tables()
+        
+        # 2. Attempt FlipFlap peering on remaining nodes
+        setup_flipflap()
+        
+        # 3. Attempt Kioubit peering
+        setup_kioubit()
+        
+        # 4. Verify BGP and ping
+        count, peers, ping_ok = verify_bgp_and_connectivity()
+        update_docs_and_git(count, peers)
+        
+        log(f"Iteration #{iteration} complete: {count} peers active ({peers}), ping_ok={ping_ok}")
+        
+        # If we have 3 or more peers and ping works, we can relax polling
+        if count >= 3 and ping_ok:
+            log(f"Target peering state reached! {count} peers established and ping working. Polling every 5m...")
+            time.sleep(300)
+        else:
+            log("Continuing peering discovery in 60s...")
+            time.sleep(60)
 
 if __name__ == "__main__":
     main()

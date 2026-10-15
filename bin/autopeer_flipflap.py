@@ -40,7 +40,19 @@ def read_until(channel, pattern, timeout=15):
         time.sleep(0.1)
     return buf
 
+def is_peer_active(node_name):
+    proto = f"dn42_{node_name.replace('-', '_')}"
+    try:
+        res = subprocess.run(["sudo", "birdc", "show", "protocols", proto], capture_output=True, text=True)
+        return "Established" in res.stdout
+    except Exception:
+        return False
+
 def peer_with_flipflap_node(node):
+    if is_peer_active(node["name"]):
+        print(f"[+] Peer {node['name']} is already Established in BIRD. Skipping.")
+        return True
+
     print(f"[*] Connecting to {node['name']} ({node['host']}:{node['port']})...")
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
