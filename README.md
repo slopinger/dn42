@@ -139,47 +139,20 @@ dn42ctl update-roa
 
 ---
 
-## 📝 Next Steps to Finalize DN42 Membership
+## 📝 Registration & Peering Status
 
-Because DN42 is a decentralized network that requires cryptographic verification of registry objects by human maintainers, complete these steps to publish the registration:
+1. **Registry Registration**:
+   - Pull Request: [https://git.dn42.dev/dn42/registry/pulls/7531](https://git.dn42.dev/dn42/registry/pulls/7531)
+   - Status: **MERGED** into `dn42registry/master` on 2026-10-15 (commit `4513a83f3`).
+   - Objects: `AS4242420125`, `172.22.64.128/27`, `fdd4:af47:dcfa::/48`, `SLOP-MNT`, `SLOP-DN42`.
 
-1. **Sign Up on the DN42 Gitea instance**:
-   - Visit [git.dn42.dev/user/sign_up](https://git.dn42.dev/user/sign_up) and create an account.
-   - Confirm your email address.
-   - Add your SSH public key (`~/.ssh/id_ed25519_gitlab.pub` or `~/.ssh/id_ed25519_signing.pub`) under your account settings.
+2. **Active Backbone Peerings**:
+   - **FlipFlap Warsaw** (`pl-waw1.flap42.eu`): WireGuard on port 20266, BGP Established (`dn42_flipflap_waw`).
+   - **FlipFlap Frankfurt** (`de-fra1.flap42.eu`): WireGuard on port 20263, BGP Established (`dn42_flipflap_fra`).
+   - Route stats: Exchanging 2,893 IPv4 paths and 2,651 IPv6 paths across 1,447 global DN42 networks. Extended Next Hop (RFC 8950) active.
 
-2. **Fork the Registry Repository**:
-   - Navigate to [git.dn42.dev/dn42/registry](https://git.dn42.dev/dn42/registry) and click **Fork**.
-
-3. **Commit the Prepared Registry Objects**:
-   - Clone your fork:
-     ```bash
-     git clone git@git.dn42.dev:<your-username>/registry.git /tmp/dn42-registry
-     ```
-   - Copy the pre-generated objects from this repo:
-     ```bash
-     cp -r ~/src/dn42/registry/data/* /tmp/dn42-registry/data/
-     ```
-   - Commit and sign:
-     ```bash
-     cd /tmp/dn42-registry
-     git add data/
-     git commit -S -m "Register SLOP-MNT, AS4242420125, 172.22.64.128/27, fdd4:af47:dcfa::/48"
-     git push origin master
-     ```
-
-4. **Submit the Pull Request**:
-   - Open a pull request against `master` of `dn42/registry`.
-   - The CI checks will automatically validate schema, syntax, and signature.
-   - Once merged by a DN42 maintainer, the objects become authoritative network-wide within ~30 minutes.
-
-5. **Establish Peering**:
-   - Use any automated peering portal:
-     - **Kioubit**: [dn42.g-load.eu](https://dn42.g-load.eu)
-     - **RoutedBits**: [dn42.routedbits.io](https://dn42.routedbits.io)
-     - **AutoPeer**: [autopeer.su](https://autopeer.su)
-   - Log in using `AS4242420125` and sign the challenge with `~/.ssh/id_ed25519_signing`.
-   - Run `sudo dn42ctl add-peer ...` with the peer parameters provided by the portal!
+3. **Continuous Autopeering**:
+   - `dn42-auto-peer.service` runs continuously in the background, checking upstream git sync on community nodes (FlipFlap Amsterdam `nl-ams2`, Paris `fr-par1`, Kioubit `AS4242423914`, Natlan `AS4242420028`), establishing additional WireGuard tunnels, and refreshing ROA validation tables.
 
 ## Nix packaging
 
