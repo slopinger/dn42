@@ -117,6 +117,106 @@ async def authenticate_kioubit(page):
     log(f"Body text after verification:\n{body_after[:500]}")
     return "dashboard" in page.url or "success" in body_after.lower()
 
+async def setup_kioubit_peerings(page):
+    log("Navigating to Kioubit dashboard...")
+    await page.get("https://dn42.g-load.eu/dashboard/")
+    await asyncio.sleep(4)
+    
+    setup_js = """
+    (async () => {
+        try {
+            const rNode = await fetch('/dashboard/api/nodeList');
+            const nodes = JSON.parse(await rNode.text());
+            
+            const rPeer = await fetch('/dashboard/api/myPeerings');
+            const peerings = JSON.parse(await rPeer.text());
+            const existing = new Set(peerings.map(p => p.node));
+            
+            const candidates = [];
+            for (const n of nodes) {
+                if (n.acceptsNewPeerings === 1 && !existing.has(n.hostname)) {
+                    candidates.push(n);
+                }
+            }
+            
+            candidates.sort((a, b) => {
+                const aPri = (a.hostname.includes('de-') || a.hostname.includes('fra')) ? 0 : 1;
+                const bPri = (b.hostname.includes('de-') || b.hostname.includes('fra')) ? 0 : 1;
+                return aPri - bPri;
+            });
+            
+            const toAdd = candidates.slice(0, 3);
+            for (const target of toAdd) {
+                const changes = {
+                    Endpoint: "45.150.123.24:20125",
+                    Wgkey: "sgYSxYeBQX9IMbcj7zv6UxYYq7QQPDfMdaxHFlTeckY=",
+                    WGpsk: "",
+                    V4: "",
+                    V6: "",
+                    Multiprotocol: 1,
+                    Enexthop: 1,
+                    LinkMTU: 1420
+                };
+                await fetch('/dashboard/api/setPeeringValues?node=' + encodeURIComponent(target.hostname) + '&changes=' + encodeURIComponent(JSON.stringify(changes)));
+            }
+            
+            await new Promise(r => setTimeout(r, 2000));
+            const rUpdated = await fetch('/dashboard/api/myPeerings');
+            const updatedPeerings = JSON.parse(await rUpdated.text());
+            
+            const configs = [];
+            for (const p of updatedPeerings) {
+                const nodeObj = nodes.find(n => n.hostname === p.node);
+                if (nodeObj) {
+                    configs.push({
+                        hostname: nodeObj.hostname,
+                        port: p.port,
+                        pubkey: nodeObj.wgkey,
+                        peer_ll: nodeObj.v6,
+                        my_ll: p.v6
+                    });
+                }
+            }
+            return {success: true, configs: configs};
+        } catch(e) {
+            return {success: false, error: String(e)};
+        }
+    })()
+    """
+    res = await page.evaluate(setup_js)
+    log(f"Kioubit setup result: {res}")
+    if not res or not res.get("success"):
+        return False
+        
+    configs = res.get("configs", [])
+    if not configs:
+        log("No Kioubit peer configurations returned.")
+        return False
+        
+    success_count = 0
+    for cfg in configs:
+        name = f"kioubit-{cfg['hostname']}"
+        endpoint = f"{cfg['hostname']}.g-load.eu:{cfg['port']}"
+        pubkey = cfg["pubkey"]
+        peer_ll = cfg["peer_ll"]
+        my_ll = cfg["my_ll"]
+        
+        log(f"Adding local peer {name} ({endpoint}, pubkey {pubkey}, peer_ll {peer_ll}, my_ll {my_ll})...")
+        cmd = [
+            "sudo", "/usr/local/bin/dn42ctl", "add-peer", name,
+            "--asn", "4242423914",
+            "--endpoint", endpoint,
+            "--pubkey", pubkey,
+            "--peer-ll-v6", peer_ll,
+            "--my-ll-v6", my_ll
+        ]
+        proc = subprocess.run(cmd, capture_output=True, text=True)
+        log(f"dn42ctl output:\n{proc.stdout}\n{proc.stderr}")
+        if proc.returncode == 0:
+            success_count += 1
+            
+    return success_count > 0
+
 async def run():
     display = ":99"
     os.environ["DISPLAY"] = display
@@ -127,9 +227,15 @@ async def run():
     try:
         browser = await uc.start(headless=False, browser_args=["--no-sandbox", "--disable-dev-shm-usage", "--window-size=1280,1024"])
         page = await browser.get("about:blank")
-        success = await authenticate_kioubit(page)
+        auth_ok = await authenticate_kioubit(page)
+        if not auth_ok:
+            log("Kioubit authentication failed or not ready.")
+            browser.stop()
+            return False
+            
+        peering_ok = await setup_kioubit_peerings(page)
         browser.stop()
-        return success
+        return peering_ok
     finally:
         openbox.terminate()
         xvfb.terminate()

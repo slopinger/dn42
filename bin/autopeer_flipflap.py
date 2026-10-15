@@ -16,10 +16,10 @@ import subprocess
 import paramiko
 
 NODES = [
-    {"name": "flipflap-fra", "host": "de-fra1.flap42.eu", "port": 4242},
-    {"name": "flipflap-ams", "host": "nl-ams2.flap42.eu", "port": 4242},
-    {"name": "flipflap-par", "host": "fr-par1.flap42.eu", "port": 4242},
-    {"name": "flipflap-waw", "host": "pl-waw1.flap42.eu", "port": 4242},
+    {"name": "flipflap-fra", "host": "de-fra1.flap42.eu", "port": 4242, "wg_port": 20263},
+    {"name": "flipflap-ams", "host": "nl-ams2.flap42.eu", "port": 4242, "wg_port": 20264},
+    {"name": "flipflap-par", "host": "fr-par1.flap42.eu", "port": 4242, "wg_port": 20265},
+    {"name": "flipflap-waw", "host": "pl-waw1.flap42.eu", "port": 4242, "wg_port": 20266},
 ]
 
 MY_ASN = "4242420125"
@@ -81,7 +81,8 @@ def peer_with_flipflap_node(node):
     channel.send(f"{MY_ENDPOINT_ADDR}\n")
     
     read_until(channel, r"WireGuard endpoint port", timeout=5)
-    channel.send(f"{MY_ENDPOINT_PORT}\n")
+    wg_port = str(node.get("wg_port", MY_ENDPOINT_PORT))
+    channel.send(f"{wg_port}\n")
     
     read_until(channel, r"Link-local IPv6", timeout=5)
     channel.send("\n") # Default auto
@@ -147,7 +148,8 @@ def peer_with_flipflap_node(node):
             "--endpoint", peer_endpoint,
             "--pubkey", peer_pubkey,
             "--peer-ll-v6", peer_ll,
-            "--my-ll-v6", my_ll
+            "--my-ll-v6", my_ll,
+            "--port", wg_port
         ]
         res = subprocess.run(cmd, capture_output=True, text=True)
         print(f"[*] Result: {res.stdout}\n{res.stderr}")

@@ -112,7 +112,25 @@ def cmd_add_peer(args):
     peer_pubkey = args.pubkey
     peer_ll_v6 = args.peer_ll_v6 or "fe80::1"
     my_ll_v6 = args.my_ll_v6 or "fe80::2"
-    listen_port = args.port or (20000 + (int(asn) % 10000))
+    if args.port:
+        listen_port = args.port
+    else:
+        used_ports = set()
+        if os.path.exists(SYSTEMD_NET_DIR):
+            for f in os.listdir(SYSTEMD_NET_DIR):
+                if f.endswith(".netdev"):
+                    try:
+                        with open(os.path.join(SYSTEMD_NET_DIR, f)) as nd:
+                            for line in nd:
+                                if line.strip().startswith("ListenPort="):
+                                    used_ports.add(int(line.strip().split("=")[1]))
+                    except Exception:
+                        pass
+        base_port = 20000 + (int(asn) % 8000)
+        while base_port in used_ports:
+            base_port += 1
+        listen_port = base_port
+
     iface = f"dn_{name[:12]}"
 
     print(f"Configuring peer: {name} (AS{asn}) on interface {iface}...")
