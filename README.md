@@ -180,3 +180,30 @@ Because DN42 is a decentralized network that requires cryptographic verification
      - **AutoPeer**: [autopeer.su](https://autopeer.su)
    - Log in using `AS4242420125` and sign the challenge with `~/.ssh/id_ed25519_signing`.
    - Run `sudo dn42ctl add-peer ...` with the peer parameters provided by the portal!
+
+## Nix packaging
+
+`nix build` packages dn42ctl, the peering helpers and ROA updater with their
+Python/Paramiko and command dependencies. `nix run . -- --help` is read-only.
+`nix flake check` checks Python/shell syntax and BIRD configuration syntax
+with empty ROA/peer fixtures; it never provisions tunnels or contacts peers.
+`nix develop` supplies Python/Paramiko, BIRD 3 and WireGuard tooling. Linux
+x86_64/aarch64 packages are defined; x86_64 is the validation host.
+
+Import `inputs.dn42.nixosModules.default` and enable `services.slop-dn42.enable`
+for this specific ASN/allocation: forwarding, the dummy interface, BIRD and an
+hourly ROA timer. `package` overrides tooling and `peerConfig` supplies BIRD
+peer definitions. Configure WireGuard tunnels declaratively in the host, using
+runtime private-key files; no secret belongs in Nix expressions/the store.
+The module deliberately leaves WAN settings alone. ROAs live in
+`/var/lib/dn42-roa`; BIRD requires the initial download, so failure prevents
+startup rather than silently using an empty ROA set. Build-time BIRD checks use
+fixtures because runtime ROAs are not present in the store.
+
+The imperative `dn42ctl add-peer` and auto-peer daemon target the existing Arch
+installation; they are not enabled by the NixOS module and must not be used to
+modify declarative NixOS network configuration. Existing Arch deployment uses
+`./deploy.sh`. The daemon checks the public registry PR without credentials and
+uses its own Python interpreter for the adjacent FlipFlap helper. Previously
+committed credentials have been removed from current source; history still
+contains them and the affected external credential needs rotation.
