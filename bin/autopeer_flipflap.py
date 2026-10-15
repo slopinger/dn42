@@ -118,13 +118,27 @@ def peer_with_flipflap_node(node):
     peer_pubkey = pubkey_m.group(1) if pubkey_m else None
     peer_endpoint = f"{endpoint_m.group(1)}:{endpoint_m.group(2)}" if endpoint_m else None
     
-    # Also find local link-local and remote link-local
-    ll_addrs = re.findall(r"fe80::[0-9a-fA-F:]+", config_out)
-    print(f"[*] Extracted: PubKey={peer_pubkey}, Endpoint={peer_endpoint}, LLs={ll_addrs}")
+    # Extract link-local addresses
+    # BIRD snippet specifies: neighbor <peer_ll> as 4242420263
+    # PostUp snippet specifies: PostUp = ... <my_ll>/128 peer <peer_ll>/128
+    neighbor_m = re.search(r"neighbor\s+(fe80:[0-9a-fA-F:]+)\s+as", config_out)
+    postup_m = re.search(r"PostUp\s*=.*?\s+(fe80:[0-9a-fA-F:]+)/128\s+peer\s+(fe80:[0-9a-fA-F:]+)", config_out)
+
+    if neighbor_m and postup_m:
+        peer_ll = neighbor_m.group(1)
+        my_ll = postup_m.group(1)
+    else:
+        ll_addrs = re.findall(r"fe80:[0-9a-fA-F:]+", config_out)
+        if len(ll_addrs) >= 2:
+            my_ll = ll_addrs[0]
+            peer_ll = ll_addrs[1]
+        else:
+            my_ll = None
+            peer_ll = None
+
+    print(f"[*] Extracted: PubKey={peer_pubkey}, Endpoint={peer_endpoint}, my_ll={my_ll}, peer_ll={peer_ll}")
     
-    if peer_pubkey and peer_endpoint and len(ll_addrs) >= 2:
-        peer_ll = ll_addrs[0]
-        my_ll = ll_addrs[1]
+    if peer_pubkey and peer_endpoint and my_ll and peer_ll:
         print(f"[+] Configuring local peer {node['name']}...")
         cmd = [
             "sudo", "/usr/local/bin/dn42ctl", "add-peer", node["name"],
