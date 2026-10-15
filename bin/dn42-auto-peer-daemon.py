@@ -13,11 +13,8 @@ import re
 import subprocess
 import urllib.request
 import urllib.error
-import base64
 
 PR_URL = "https://git.dn42.dev/api/v1/repos/dn42/registry/pulls/7531"
-GITEA_USER = "slop_freifick"
-GITEA_PASS = "S1op_freifick_dn42_2026!"
 
 FLIPFLAP_NODES = [
     {"name": "flipflap-fra", "host": "de-fra1.flap42.eu", "port": 4242},
@@ -30,7 +27,6 @@ MY_WG_PUBKEY = "sgYSxYeBQX9IMbcj7zv6UxYYq7QQPDfMdaxHFlTeckY="
 MY_ENDPOINT_ADDR = "45.150.123.24"
 MY_ENDPOINT_PORT = "20125"
 KEY_PATH = "/home/slop/.ssh/id_ed25519_signing"
-VENV_PYTHON = "/home/slop/.gemini/antigravity-cli/brain/1b870dee-b202-4b03-be21-4d504ed30d5e/scratch/venv/bin/python"
 
 def log(msg):
     timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
@@ -38,8 +34,6 @@ def log(msg):
 
 def check_pr_status():
     req = urllib.request.Request(PR_URL)
-    auth = base64.b64encode(f"{GITEA_USER}:{GITEA_PASS}".encode()).decode()
-    req.add_header("Authorization", f"Basic {auth}")
     req.add_header("User-Agent", "DN42-AutoPeer-Daemon/1.0")
 
     try:
@@ -64,7 +58,7 @@ def run_cmd(cmd):
 
 def setup_flipflap():
     log("Attempting FlipFlap peering...")
-    cmd = f"{VENV_PYTHON} /home/slop/src/dn42/bin/autopeer_flipflap.py"
+    cmd = f"{sys.executable} {os.path.join(os.path.dirname(os.path.abspath(__file__)), 'autopeer_flipflap.py')}"
     code, stdout, stderr = run_cmd(cmd)
     log(f"FlipFlap script output:\n{stdout}")
     if stderr:
