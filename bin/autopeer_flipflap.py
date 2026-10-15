@@ -24,7 +24,7 @@ NODES = [
 
 MY_ASN = "4242420125"
 MY_WG_PUBKEY = "sgYSxYeBQX9IMbcj7zv6UxYYq7QQPDfMdaxHFlTeckY="
-MY_ENDPOINT_ADDR = "45.150.123.24"
+MY_ENDPOINT_ADDR = "2a0f:be01:0:100::113"
 MY_ENDPOINT_PORT = "20125"
 KEY_PATH = "/home/slop/.ssh/id_ed25519_signing"
 
@@ -98,45 +98,42 @@ def peer_with_flipflap_node(node):
     
     print(f"[*] Raw peer configuration output:\n{config_out}")
     
-    # Parse remote endpoint, pubkey, and link-local address
-    # Look for Remote peer configuration table or WireGuard config block
-    # WireGuard configuration block:
-    # [Peer]
-    # PublicKey = ...
-    # Endpoint = host:port
-    pubkey_m = re.search(r"PublicKey\s*=\s*([0-9a-zA-Z+/]{43}=)", config_out)
-    endpoint_m = re.search(r"Endpoint\s*=\s*([^\s:]+):([0-9]+)", config_out)
-    ll_m = re.search(r"fe80::[0-9a-fA-F:]+", config_out)
+    clean_config = re.sub(r'\x1b\[[0-9;]*[a-zA-Z]', '', config_out)
     
-    if not (pubkey_m and endpoint_m):
-        # Fallback to table search
-        print("[-] Could not find standard WireGuard config block, parsing tables...")
-        # Match from table rows:
-        # WG pub key | ...
-        # WG Endpoint addr. | ...
-        # WG Endpoint port | ...
-        # Link-local address | ...
+    # Parse from Table (first table is our ASN, second table is FlipFlap node)
+    table_keys = re.findall(r"[│|]\s*WG pub key\s*[│|]\s*([0-9a-zA-Z+/=]{44})", clean_config)
+    table_endpoints = re.findall(r"[│|]\s*WG Endpoint addr\.\s*[│|]\s*([^\s│|]+)", clean_config)
+    table_ports = re.findall(r"[│|]\s*WG Endpoint port\s*[│|]\s*([0-9]+)", clean_config)
+    table_lls = re.findall(r"[│|]\s*Link-local address\s*[│|]\s*(fe80:[0-9a-fA-F:]+)", clean_config)
     
-    peer_pubkey = pubkey_m.group(1) if pubkey_m else None
-    peer_endpoint = f"{endpoint_m.group(1)}:{endpoint_m.group(2)}" if endpoint_m else None
+    peer_pubkey = None
+    peer_endpoint = None
+    my_ll = None
+    peer_ll = None
     
-    # Extract link-local addresses
-    # BIRD snippet specifies: neighbor <peer_ll> as 4242420263
-    # PostUp snippet specifies: PostUp = ... <my_ll>/128 peer <peer_ll>/128
-    neighbor_m = re.search(r"neighbor\s+(fe80:[0-9a-fA-F:]+)\s+as", config_out)
-    postup_m = re.search(r"PostUp\s*=.*?\s+(fe80:[0-9a-fA-F:]+)/128\s+peer\s+(fe80:[0-9a-fA-F:]+)", config_out)
-
-    if neighbor_m and postup_m:
-        peer_ll = neighbor_m.group(1)
-        my_ll = postup_m.group(1)
+    if len(table_keys) >= 2 and len(table_endpoints) >= 2 and len(table_ports) >= 2 and len(table_lls) >= 2:
+        peer_pubkey = table_keys[1]
+        peer_endpoint = f"{table_endpoints[1]}:{table_ports[1]}"
+        my_ll = table_lls[0]
+        peer_ll = table_lls[1]
     else:
-        ll_addrs = re.findall(r"fe80:[0-9a-fA-F:]+", config_out)
-        if len(ll_addrs) >= 2:
-            my_ll = ll_addrs[0]
-            peer_ll = ll_addrs[1]
+        pubkey_m = re.search(r"PublicKey\s*=\s*([0-9a-zA-Z+/]{43}=)", config_out)
+        endpoint_m = re.search(r"Endpoint\s*=\s*([^\s:]+):([0-9]+)", config_out)
+        if pubkey_m:
+            peer_pubkey = pubkey_m.group(1)
+        if endpoint_m:
+            peer_endpoint = f"{endpoint_m.group(1)}:{endpoint_m.group(2)}"
+        
+        neighbor_m = re.search(r"neighbor\s+(fe80:[0-9a-fA-F:]+)\s+as", config_out)
+        postup_m = re.search(r"PostUp\s*=.*?\s+(fe80:[0-9a-fA-F:]+)/128\s+peer\s+(fe80:[0-9a-fA-F:]+)", config_out)
+        if neighbor_m and postup_m:
+            peer_ll = neighbor_m.group(1)
+            my_ll = postup_m.group(1)
         else:
-            my_ll = None
-            peer_ll = None
+            ll_addrs = re.findall(r"fe80:[0-9a-fA-F:]+", config_out)
+            if len(ll_addrs) >= 2:
+                my_ll = ll_addrs[0]
+                peer_ll = ll_addrs[1]
 
     print(f"[*] Extracted: PubKey={peer_pubkey}, Endpoint={peer_endpoint}, my_ll={my_ll}, peer_ll={peer_ll}")
     
