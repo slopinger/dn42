@@ -19,6 +19,7 @@ NODES = [
     {"name": "flipflap-fra", "host": "de-fra1.flap42.eu", "port": 4242},
     {"name": "flipflap-ams", "host": "nl-ams2.flap42.eu", "port": 4242},
     {"name": "flipflap-par", "host": "fr-par1.flap42.eu", "port": 4242},
+    {"name": "flipflap-waw", "host": "pl-waw1.flap42.eu", "port": 4242},
 ]
 
 MY_ASN = "4242420125"
