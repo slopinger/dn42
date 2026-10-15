@@ -67,9 +67,9 @@ def check_pr_status():
         log(f"Error checking PR: {e}")
         return None
 
-def run_cmd(cmd):
+def run_cmd(cmd, timeout=180):
     try:
-        res = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=30)
+        res = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=timeout)
         return res.returncode, res.stdout.strip(), res.stderr.strip()
     except Exception as e:
         return -1, "", str(e)
@@ -77,11 +77,25 @@ def run_cmd(cmd):
 def setup_flipflap():
     log("Attempting FlipFlap peering...")
     cmd = f"{sys.executable} {os.path.join(os.path.dirname(os.path.abspath(__file__)), 'autopeer_flipflap.py')}"
-    code, stdout, stderr = run_cmd(cmd)
+    code, stdout, stderr = run_cmd(cmd, timeout=120)
     log(f"FlipFlap script output:\n{stdout}")
     if stderr:
         log(f"FlipFlap stderr:\n{stderr}")
     return "Successful peerings: 0" not in stdout
+
+def setup_kioubit():
+    log("Attempting Kioubit peering...")
+    cmd = f"{sys.executable} {os.path.join(os.path.dirname(os.path.abspath(__file__)), 'autopeer_kioubit.py')}"
+    code, stdout, stderr = run_cmd(cmd, timeout=120)
+    log(f"Kioubit script output:\n{stdout}")
+    if stderr:
+        log(f"Kioubit stderr:\n{stderr}")
+    return code == 0
+
+def setup_all_peers():
+    ff_ok = setup_flipflap()
+    kb_ok = setup_kioubit()
+    return ff_ok or kb_ok
 
 def verify_bgp_and_connectivity():
     code, out, _ = run_cmd("birdc show protocols")
@@ -143,9 +157,9 @@ def main():
     peers_ok = False
     for attempt in range(1, 20):
         log(f"Peering setup attempt #{attempt}...")
-        success = setup_flipflap()
+        success = setup_all_peers()
         if success:
-            log("FlipFlap autopeering succeeded!")
+            log("Peering automation succeeded!")
             peers_ok = True
             break
         log("Peering not ready yet, waiting 60s for registry sync...")
