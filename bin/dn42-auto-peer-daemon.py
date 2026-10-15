@@ -10,11 +10,14 @@ import sys
 import time
 import json
 import re
+import base64
 import subprocess
 import urllib.request
 import urllib.error
 
 PR_URL = "https://git.dn42.dev/api/v1/repos/dn42/registry/pulls/7531"
+GITEA_USER_FILE = "/home/slop/.secrets/dn42/username"
+GITEA_PASS_FILE = "/home/slop/.secrets/dn42/password"
 
 FLIPFLAP_NODES = [
     {"name": "flipflap-fra", "host": "de-fra1.flap42.eu", "port": 4242},
@@ -32,9 +35,24 @@ def log(msg):
     timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
     print(f"[{timestamp}] {msg}", flush=True)
 
+def get_auth_header():
+    try:
+        with open(GITEA_USER_FILE, "r") as f:
+            u = f.read().strip()
+        with open(GITEA_PASS_FILE, "r") as f:
+            p = f.read().strip()
+        auth = base64.b64encode(f"{u}:{p}".encode()).decode()
+        return f"Basic {auth}"
+    except Exception as e:
+        log(f"Error reading credentials: {e}")
+        return None
+
 def check_pr_status():
     req = urllib.request.Request(PR_URL)
-    req.add_header("User-Agent", "DN42-AutoPeer-Daemon/1.0")
+    auth_hdr = get_auth_header()
+    if auth_hdr:
+        req.add_header("Authorization", auth_hdr)
+    req.add_header("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0")
 
     try:
         with urllib.request.urlopen(req, timeout=10) as resp:
