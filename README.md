@@ -16,9 +16,9 @@ Configured resources and prepared registry objects are listed below. Verify regi
 | **Router IPv4 (Dummy Loopback)** | `172.22.64.129/27` | Interface `dn42-dummy` |
 | **Router IPv6 (Dummy Loopback)** | `fdd4:af47:dcfa::1/48` | Interface `dn42-dummy` |
 | **WireGuard Public Key** | `sgYSxYeBQX9IMbcj7zv6UxYYq7QQPDfMdaxHFlTeckY=` | Private key at `/etc/wireguard/dn42.key` (0640, root:systemd-network) |
-| **Registry Signing Key** | `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOTofPAGRTdGiTl7oeIWupx4euhHVkR3TyPsECnq2fWJ` | `slop@freifick.net` (`~/.ssh/id_ed25519_signing`) |
+| **Registry Signing Key** | `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOTofPAGRTdGiTl7oeIWupx4euhHVkR3TyPsECnq2fWJ` | `slopmoder@tutamail.com` (`~/.ssh/id_ed25519_signing`) |
 | **Maintainer Handle** | `SLOP-MNT` | Authenticated with SSH commit signing key |
-| **Person Handle** | `SLOP-DN42` | Contact email `slop@freifick.net` |
+| **Person Handle** | `SLOP-DN42` | Contact email `slopmoder@tutamail.com` |
 
 ---
 

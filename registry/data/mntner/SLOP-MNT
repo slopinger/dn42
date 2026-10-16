@@ -3,5 +3,5 @@ descr:              Slop Maintainer
 admin-c:            SLOP-DN42
 tech-c:             SLOP-DN42
 mnt-by:             SLOP-MNT
-auth:               ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOTofPAGRTdGiTl7oeIWupx4euhHVkR3TyPsECnq2fWJ slop@freifick.net
+auth:               ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOTofPAGRTdGiTl7oeIWupx4euhHVkR3TyPsECnq2fWJ slopmoder@tutamail.com
 source:             DN42
