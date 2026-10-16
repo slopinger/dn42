@@ -48,46 +48,92 @@
     "repo": "https://github.com/baragoon/dn42-as4242421732"
   },
   {
-    "name": "kioubit",
+    "name": "flipflap_fra",
+    "asn": "4242420263",
+    "network": "FlipFlap Net (Frankfurt, DE)",
+    "endpoint": "de-fra1.flap42.eu:52039",
+    "pubkey": "d7ICCZTiZaYlf9ueUuPlVV1QdLWLobIlCiI9fxet+H4=",
+    "peer_ll_v6": "fe80:4263::1:27",
+    "my_ll_v6": "fe80:4263::1:28",
+    "port": 20263,
+    "status": "established"
+  },
+  {
+    "name": "flipflap_waw",
+    "asn": "4242420263",
+    "network": "FlipFlap Net (Warsaw, PL)",
+    "endpoint": "pl-waw1.flap42.eu:52021",
+    "pubkey": "NG0QVNL8H8ERcF2C03Um37LwBwAHrkLSiWgbSPDcxmM=",
+    "peer_ll_v6": "fe80:2263::1:15",
+    "my_ll_v6": "fe80:2263::1:16",
+    "port": 20266,
+    "status": "established"
+  },
+  {
+    "name": "kioubit_de2",
     "asn": "4242423914",
-    "network": "Kioubit Network (Frankfurt/Falkenstein)",
-    "portal": "https://dn42.g-load.eu/",
-    "method": "autopeer_portal"
+    "network": "Kioubit Network (Nuremberg/DE2)",
+    "endpoint": "de2.g-load.eu:20179",
+    "pubkey": "B1xSG/XTJRLd+GrWDsB06BqnIq8Xud93YVh/LYYYtUY=",
+    "peer_ll_v6": "fe80::ade0",
+    "my_ll_v6": "fe80::125",
+    "port": 20391,
+    "status": "established"
   },
   {
-    "name": "routedbits",
+    "name": "kioubit_fr1",
+    "asn": "4242423914",
+    "network": "Kioubit Network (Paris/FR1)",
+    "endpoint": "fr1.g-load.eu:20082",
+    "pubkey": "sLbzTRr2gfLFb24NPzDOpy8j09Y6zI+a7NkeVMdVSR8=",
+    "peer_ll_v6": "fe80::ade0",
+    "my_ll_v6": "fe80::125",
+    "port": 20392,
+    "status": "established"
+  },
+  {
+    "name": "kioubit_uk1",
+    "asn": "4242423914",
+    "network": "Kioubit Network (London/UK1)",
+    "endpoint": "uk1.g-load.eu:20039",
+    "pubkey": "sLbzTRr2gfLFb24NPzDOpy8j09Y6zI+a7NkeVMdVSR8=",
+    "peer_ll_v6": "fe80::ade0",
+    "my_ll_v6": "fe80::125",
+    "port": 20393,
+    "status": "established"
+  },
+  {
+    "name": "routedbits_fra",
     "asn": "4242420207",
-    "network": "RoutedBits (Europe/North America)",
-    "portal": "https://dn42.routedbits.io/",
-    "method": "autopeer_portal"
+    "network": "RoutedBits (Frankfurt, DE)",
+    "endpoint": "router.fra1.routedbits.com:50125",
+    "pubkey": "FIk95vqIJxf2ZH750lsV1EybfeC9+V8Bnhn8YWPy/l8=",
+    "peer_ll_v6": "fe80::207",
+    "my_ll_v6": "fe80::125",
+    "port": 20207,
+    "status": "established"
   },
   {
-    "name": "nedifinita",
-    "asn": "4242420454",
-    "network": "Nedifinita Network",
-    "portal": "https://peer-dn42.nedifinita.com/",
-    "method": "autopeer_portal"
+    "name": "routedbits_ams",
+    "asn": "4242420207",
+    "network": "RoutedBits (Amsterdam, NL)",
+    "endpoint": "router.ams1.routedbits.com:50125",
+    "pubkey": "JjAHDWR1CgQd1HJNvURrqUECkN++0bzYxlm57VXjlyc=",
+    "peer_ll_v6": "fe80::207",
+    "my_ll_v6": "fe80::125",
+    "port": 20208,
+    "status": "established"
   },
   {
-    "name": "headscarf",
-    "asn": "4242420842",
-    "network": "HEADSCARF175 (Frankfurt, DE)",
-    "portal": "https://peer.headscarf175.net/",
-    "method": "autopeer_portal"
-  },
-  {
-    "name": "achsulfate",
-    "asn": "4242423310",
-    "network": "ACh Sulfate",
-    "portal": "https://peer42.tmpfs.dev/",
-    "method": "autopeer_portal"
-  },
-  {
-    "name": "sabrina",
-    "asn": "4242421810",
-    "network": "Sabrina's testnet (Frankfurt/SG/US)",
-    "portal": "https://dn42.sabrinaishere.party/peer",
-    "method": "autopeer_portal"
+    "name": "natlan_fra",
+    "asn": "4242420028",
+    "network": "NATLAN Network (Frankfurt, DE)",
+    "endpoint": "fra1.edge.ngworks.org:51804",
+    "pubkey": "lv4vDtsybzmQ96lfCcvbo0X+ZhD5vE8AbCUqRXIccFI=",
+    "peer_ll_v6": "fe80::28",
+    "my_ll_v6": "fe80::125",
+    "port": 20028,
+    "status": "provisioned"
   },
   {
     "name": "pilz",
@@ -98,6 +144,7 @@
     "peer_ll_v6": "fe80::1312",
     "my_ll_v6": "fe80::125",
     "port": 20663,
+    "status": "established",
     "method": "github_pr",
     "repo": "https://github.com/pilz0/nixos-config",
     "pr": "https://github.com/pilz0/nixos-config/pull/6"

@@ -151,12 +151,17 @@ dn42ctl update-roa
    - **FlipFlap Warsaw** (`pl-waw1.flap42.eu`): WireGuard port 20266, BGP Established (`dn42_flipflap_waw`, ~21ms).
    - **Kioubit Nuremberg** (`de2.g-load.eu`): WireGuard port 20391, BGP Established (`dn42_kioubit_de2`, ~17ms).
    - **Kioubit Paris** (`fr1.g-load.eu`): WireGuard port 20392, BGP Established (`dn42_kioubit_fr1`, ~19ms).
-   - **Pilz** (`AS4242420663`, Amsterdam `94.142.241.1`): WireGuard local port 20663, remote port 125, peer LL `fe80::1312`, our LL `fe80::125`. Peering PR opened at [pilz0/nixos-config#6](https://github.com/pilz0/nixos-config/pull/6); local interface `dn_pilz` and BIRD protocol `dn42_pilz` configured.
-   - Route stats: Exchanging 5,403 IPv4 paths and 5,221 IPv6 paths across 1,450 global DN42 networks. Extended Next Hop (RFC 8950) active.
-   - Anycast DNS Reachability: `172.20.0.53` and `fd42:d42:d42:54::1` verified with 0% packet loss (<18ms).
+   - **Kioubit London** (`uk1.g-load.eu`): WireGuard port 20393, BGP Established (`dn42_kioubit_uk1`, ~16ms).
+   - **RoutedBits Amsterdam** (`router.ams1.routedbits.com`): WireGuard port 20208, BGP Established (`dn42_routedbits_ams`, ~8ms).
+   - **RoutedBits Frankfurt** (`router.fra1.routedbits.com`): WireGuard port 20207, BGP Established (`dn42_routedbits_fra`, ~4ms).
+   - **Pilz** (`AS4242420663`, Amsterdam `94.142.240.36:125`): WireGuard port 20663, BGP Established (`dn42_pilz`, PR pilz0/nixos-config#6 merged/applied).
+   - **NATLAN Frankfurt** (`AS4242420028`, `fra1.edge.ngworks.org:51804`): WireGuard port 20028, provisioned on NATLAN, protocol `dn42_natlan_fra` configured.
+   - **Baragoon Frankfurt** (`AS215887`, `chr-fr01.as215887.net:20125`): WireGuard port 20125, protocol `dn42_baragoon_fra` configured.
+   - Route stats: Exchanging 10,816 IPv4 paths and 10,428 IPv6 paths across 1,450 global DN42 networks. Extended Next Hop (RFC 8950) active. Total 26,935 routing table entries.
+   - Anycast DNS Reachability: `172.20.0.53` and `fd42:d42:d42:54::1` verified with 0% packet loss (<18ms). Internal domain resolution tested (`kioubit.dn42` -> `172.20.14.43`).
 
 3. **Continuous Autopeering**:
-   - `dn42-auto-peer.service` runs continuously in the background, checking upstream git sync on community nodes (FlipFlap Amsterdam `nl-ams2`, Paris `fr-par1`, Kioubit `AS4242423914`, Natlan `AS4242420028`), establishing additional WireGuard tunnels, and refreshing ROA validation tables.
+   - `dn42-auto-peer.service` runs continuously in the background, checking upstream git sync on community nodes (FlipFlap Amsterdam `nl-ams2`, Paris `fr-par1`, Kioubit `AS4242423914`, Natlan `AS4242420028`), establishing additional WireGuard tunnels, and refreshing ROA validation tables. Scripts include `autopeer_flipflap.py`, `autopeer_kioubit.py`, and `autopeer_natlan.py`.
 
 ## Nix packaging
 
