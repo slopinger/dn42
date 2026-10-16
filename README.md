@@ -151,6 +151,7 @@ dn42ctl update-roa
    - **FlipFlap Warsaw** (`pl-waw1.flap42.eu`): WireGuard port 20266, BGP Established (`dn42_flipflap_waw`, ~21ms).
    - **Kioubit Nuremberg** (`de2.g-load.eu`): WireGuard port 20391, BGP Established (`dn42_kioubit_de2`, ~17ms).
    - **Kioubit Paris** (`fr1.g-load.eu`): WireGuard port 20392, BGP Established (`dn42_kioubit_fr1`, ~19ms).
+   - **Pilz** (`AS4242420663`, Amsterdam `94.142.241.1`): WireGuard local port 20663, remote port 125, peer LL `fe80::1312`, our LL `fe80::125`. Peering PR opened at [pilz0/nixos-config#6](https://github.com/pilz0/nixos-config/pull/6); local interface `dn_pilz` and BIRD protocol `dn42_pilz` configured.
    - Route stats: Exchanging 5,403 IPv4 paths and 5,221 IPv6 paths across 1,450 global DN42 networks. Extended Next Hop (RFC 8950) active.
    - Anycast DNS Reachability: `172.20.0.53` and `fd42:d42:d42:54::1` verified with 0% packet loss (<18ms).
 
