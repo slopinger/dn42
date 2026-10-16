@@ -359,5 +359,59 @@
     "status": "established",
     "method": "autopeer_ssh_sig",
     "portal": "https://neousw42.kskb.eu.org/autopeer/"
+  },
+  {
+    "name": "yuyuko_nl",
+    "asn": "4242421117",
+    "network": "Yuyuko Network (Amsterdam, NL)",
+    "endpoint": "nl01.dn42.yuyuko.com:20125",
+    "pubkey": "9oVGKPUnxykn9y/CeNmHbImnX2WRsHk6VzSIAQfy0hc=",
+    "peer_ll_v6": "fe80::1117",
+    "my_ll_v6": "fe80::125",
+    "port": 21117,
+    "status": "established",
+    "method": "autopeer_ssh_sig",
+    "portal": "https://peer-dn42.yuyuko.com"
+  },
+  {
+    "name": "yuyuko_fr",
+    "asn": "4242421117",
+    "network": "Yuyuko Network (Paris, FR)",
+    "endpoint": "fr01.dn42.yuyuko.com:20125",
+    "pubkey": "SxKDRndFF01mkK2kCW6H/4DI6gwxiP0c7y5wAOj4gVk=",
+    "peer_ll_v6": "fe80::1117",
+    "my_ll_v6": "fe80::125",
+    "port": 21118,
+    "status": "established",
+    "method": "autopeer_ssh_sig",
+    "portal": "https://peer-dn42.yuyuko.com"
+  },
+  {
+    "name": "yuyuko_pl",
+    "asn": "4242421117",
+    "network": "Yuyuko Network (Warsaw, PL)",
+    "endpoint": "pl01.dn42.yuyuko.com:20125",
+    "pubkey": "Js6RsVGWmHlqEnkIljQ/dxNE81ePbqCFhqmcpMjSHU4=",
+    "peer_ll_v6": "fe80::1117",
+    "my_ll_v6": "fe80::125",
+    "port": 21119,
+    "status": "established",
+    "method": "autopeer_ssh_sig",
+    "portal": "https://peer-dn42.yuyuko.com"
+  },
+  {
+    "name": "highdef_fra",
+    "asn": "4242421080",
+    "network": "HIGHDEF-AS (Frankfurt, DE)",
+    "endpoint": "fra.peer.highdef.network:20125",
+    "pubkey": "oiSSSOMYxiiM0eQP9p8klwEfNn34hkNNv4S289WUciU=",
+    "peer_ll_v6": "fe80::117",
+    "my_ll_v6": "fe80::125",
+    "port": 21080,
+    "status": "pending_pr",
+    "method": "github_pr",
+    "repo": "https://github.com/jlu5/ansible-dn42",
+    "pr": "https://github.com/jlu5/ansible-dn42/pull/172"
   }
 ]
+

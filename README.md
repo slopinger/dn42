@@ -146,7 +146,7 @@ dn42ctl update-roa
    - Status: **MERGED** into `dn42registry/master` on 2026-10-15 (commit `4513a83f3`).
    - Objects: `AS4242420125`, `172.22.64.128/27`, `fdd4:af47:dcfa::/48`, `SLOP-MNT`, `SLOP-DN42`.
 
-2. **Active Backbone Peerings (17 Established BGP Sessions)**:
+2. **Active Backbone Peerings (24 Established BGP Sessions)**:
    - **FlipFlap Frankfurt** (`AS4242420263`, `de-fra1.flap42.eu`): WireGuard port 20263, BGP Established (`dn42_flipflap_fra`, ~11ms).
    - **FlipFlap Warsaw** (`AS4242420263`, `pl-waw1.flap42.eu`): WireGuard port 20266, BGP Established (`dn42_flipflap_waw`, ~21ms).
    - **Kioubit Nuremberg** (`AS4242423914`, `de2.g-load.eu`): WireGuard port 20391, BGP Established (`dn42_kioubit_de2`, ~17ms).
@@ -168,12 +168,16 @@ dn42ctl update-roa
    - **KSKB Neo Zurich** (`AS4201271111`, `20.203.134.45:1029`): WireGuard port 21818, BGP Established (`dn42_kskb_ch`, ~14ms).
    - **KSKB Neo Toronto** (`AS4201271111`, `20.48.129.103:13057`): WireGuard port 21819, BGP Established (`dn42_kskb_ca`, ~90ms).
    - **KSKB Neo US West** (`AS4201271111`, `20.190.10.218:1025`): WireGuard port 21820, BGP Established (`dn42_kskb_usw`, ~145ms).
+   - **Yuyuko Network Amsterdam** (`AS4242421117`, `nl01.dn42.yuyuko.com:20125`): WireGuard port 21117, BGP Established (`dn42_yuyuko_nl`, ~18ms, 1,124 v4 / 1,122 v6 routes).
+   - **Yuyuko Network Paris** (`AS4242421117`, `fr01.dn42.yuyuko.com:20125`): WireGuard port 21118, BGP Established (`dn42_yuyuko_fr`, ~14.3ms, 1,124 v4 / 1,122 v6 routes).
+   - **Yuyuko Network Warsaw** (`AS4242421117`, `pl01.dn42.yuyuko.com:20125`): WireGuard port 21119, BGP Established (`dn42_yuyuko_pl`, ~24.5ms, 1,123 v4 / 1,121 v6 routes).
+   - **HIGHDEF-AS Frankfurt** (`AS4242421080`, `fra.peer.highdef.network:20125`): WireGuard port 21080, PR [jlu5/ansible-dn42#172](https://github.com/jlu5/ansible-dn42/pull/172) open, ~4.5ms.
    - **Zebreus** (`AS4242421403`, Falkenstein/Nuremberg): Peering request opened on GitHub Issue [zebreus/nixos-config#7](https://github.com/zebreus/nixos-config/issues/7). Port 21403 reserved.
    - **Maiyun** (`AS4242420893`, Toronto): WireGuard port 20893, PR [myzhang1029/dn42-config-pub#25](https://github.com/myzhang1029/dn42-config-pub/pull/25) submitted.
    - **0pera** (`AS4242423077`, Frankfurt): WireGuard port 23077, PR [0pera/dn42-peering#1](https://github.com/0pera/dn42-peering/pull/1) submitted.
    - **NATLAN** (`AS4242420028`, Frankfurt & Los Angeles): WireGuard ports 20028 & 20029 provisioned on API (requests 39 & 40).
    - **Baragoon Frankfurt** (`AS4242421732`, `chr-fr01.as215887.net:20125`): WireGuard port 20125, protocol `dn42_baragoon_fra` configured, PR [baragoon/dn42-as4242421732#35](https://github.com/baragoon/dn42-as4242421732/pull/35) submitted.
-   - Route stats: Full table exchange with Extended Next Hop (RFC 8950), 21 Established BGP sessions, 58,500+ paths active across 4 BIRD tables.
+   - Route stats: Full table exchange with Extended Next Hop (RFC 8950), 24 Established BGP sessions, 67,600+ paths active across 4 BIRD tables.
    - Anycast DNS Reachability: `172.20.0.53` and `fd42:d42:d42:54::1` verified with 0% packet loss (<18ms). Internal domain resolution tested (`kioubit.dn42` -> `172.20.14.43`).
 
 3. **Continuous Autopeering**:
