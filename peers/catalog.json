@@ -125,21 +125,21 @@
     "status": "established"
   },
   {
-    "name": "natlan_fra",
-    "asn": "4242420028",
-    "network": "NATLAN Network (Frankfurt, DE)",
-    "endpoint": "fra1.edge.ngworks.org:51804",
-    "pubkey": "lv4vDtsybzmQ96lfCcvbo0X+ZhD5vE8AbCUqRXIccFI=",
-    "peer_ll_v6": "fe80::28",
+    "name": "sabrina_de",
+    "asn": "4242421810",
+    "network": "Sabrina's testnet (Frankfurt/DE)",
+    "endpoint": "de42.sabrinaishere.party:20125",
+    "pubkey": "hxfukVZizPWmH35E7PaOoT3LOKlbGYvDhHgufaIFr1I=",
+    "peer_ll_v6": "fe80::1810",
     "my_ll_v6": "fe80::125",
-    "port": 20028,
-    "status": "provisioned"
+    "port": 21810,
+    "status": "established"
   },
   {
     "name": "pilz",
     "asn": "4242420663",
     "network": "Pilz (AS-CYBERTRASH-DN42, Amsterdam, NL)",
-    "endpoint": "94.142.241.1:125",
+    "endpoint": "94.142.240.36:125",
     "pubkey": "NxHkdwZPVL+3HdrHTFOslUpUckTf0dzEG9qpZ0FTBnA=",
     "peer_ll_v6": "fe80::1312",
     "my_ll_v6": "fe80::125",
@@ -148,5 +148,56 @@
     "method": "github_pr",
     "repo": "https://github.com/pilz0/nixos-config",
     "pr": "https://github.com/pilz0/nixos-config/pull/6"
+  },
+  {
+    "name": "headscarf_fra",
+    "asn": "4242420842",
+    "network": "HEADSCARF175 (Frankfurt, DE - de-fra03)",
+    "endpoint": "de-fra03.headscarf175.net:20125",
+    "pubkey": "jD9iGC5uRbsfXyJYtR6M+hrUxuNFLNY7oW3E8KaNTCU=",
+    "peer_ll_v6": "fe80::842",
+    "my_ll_v6": "fe80::125",
+    "port": 20842,
+    "status": "applying",
+    "method": "oauth_autopeer",
+    "session_id": 519
+  },
+  {
+    "name": "0pera_de",
+    "asn": "4242423077",
+    "network": "0pera (Ferrets Space, Frankfurt, DE - de-1)",
+    "endpoint": "de-1.dn42.ferrets.space:20125",
+    "pubkey": "N4Fy6nVSGZWa2mHYrZVHZ9m80q5gv5/4zSfDCPxTkHA=",
+    "peer_ll_v6": "fe80::3077",
+    "my_ll_v6": "fe80::125",
+    "port": 23077,
+    "status": "pending_pr",
+    "method": "github_pr",
+    "repo": "https://github.com/0pera/dn42-peering",
+    "pr": "https://github.com/0pera/dn42-peering/pull/1"
+  },
+  {
+    "name": "natlan_fra",
+    "asn": "4242420028",
+    "network": "NATLAN Network (Frankfurt, DE)",
+    "endpoint": "fra1.edge.ngworks.org:51804",
+    "pubkey": "lv4vDtsybzmQ96lfCcvbo0X+ZhD5vE8AbCUqRXIccFI=",
+    "peer_ll_v6": "fe80::28",
+    "my_ll_v6": "fe80::125",
+    "port": 20028,
+    "status": "provisioned",
+    "request_id": 39
+  },
+  {
+    "name": "natlan_lax",
+    "asn": "4242420028",
+    "network": "NATLAN Network (Los Angeles, US)",
+    "endpoint": "lax1.edge.ngworks.org:51807",
+    "pubkey": "1i1Tv7fM+wIfX8w5b50KiBdUhcNy1CxAfzr+Jfft93c=",
+    "peer_ll_v6": "fe80::28",
+    "my_ll_v6": "fe80::125",
+    "port": 20029,
+    "status": "provisioned",
+    "request_id": 40
   }
 ]

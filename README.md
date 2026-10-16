@@ -155,13 +155,17 @@ dn42ctl update-roa
    - **RoutedBits Amsterdam** (`router.ams1.routedbits.com`): WireGuard port 20208, BGP Established (`dn42_routedbits_ams`, ~8ms).
    - **RoutedBits Frankfurt** (`router.fra1.routedbits.com`): WireGuard port 20207, BGP Established (`dn42_routedbits_fra`, ~4ms).
    - **Pilz** (`AS4242420663`, Amsterdam `94.142.240.36:125`): WireGuard port 20663, BGP Established (`dn42_pilz`, PR pilz0/nixos-config#6 merged/applied).
-   - **NATLAN Frankfurt** (`AS4242420028`, `fra1.edge.ngworks.org:51804`): WireGuard port 20028, provisioned on NATLAN, protocol `dn42_natlan_fra` configured.
+   - **Sabrina** (`AS4242421810`, Frankfurt `de42.sabrinaishere.party:20125`): WireGuard port 21810, BGP Established (`dn42_sabrina_de`, ~20ms, 1,449 v4 / 1,342 v6 routes).
+   - **HEADSCARF175** (`AS4242420842`, Frankfurt `de-fra03.headscarf175.net:20125`): WireGuard port 20842, session 519 applying on portal.
+   - **0pera** (`AS4242423077`, Frankfurt `de-1.dn42.ferrets.space:20125`): WireGuard port 23077, GitHub PR #1 opened.
+   - **NATLAN Frankfurt** (`AS4242420028`, `fra1.edge.ngworks.org:51804`): WireGuard port 20028, provisioned on NATLAN API (request 39).
+   - **NATLAN Los Angeles** (`AS4242420028`, `lax1.edge.ngworks.org:51807`): WireGuard port 20029, provisioned on NATLAN API (request 40).
    - **Baragoon Frankfurt** (`AS215887`, `chr-fr01.as215887.net:20125`): WireGuard port 20125, protocol `dn42_baragoon_fra` configured.
-   - Route stats: Exchanging 10,816 IPv4 paths and 10,428 IPv6 paths across 1,450 global DN42 networks. Extended Next Hop (RFC 8950) active. Total 26,935 routing table entries.
+   - Route stats: Exchanging 12,262 IPv4 paths and 11,773 IPv6 paths across 1,450 global DN42 networks. Extended Next Hop (RFC 8950) active. Total 29,726 routing table entries across 4 BIRD tables.
    - Anycast DNS Reachability: `172.20.0.53` and `fd42:d42:d42:54::1` verified with 0% packet loss (<18ms). Internal domain resolution tested (`kioubit.dn42` -> `172.20.14.43`).
 
 3. **Continuous Autopeering**:
-   - `dn42-auto-peer.service` runs continuously in the background, checking upstream git sync on community nodes (FlipFlap Amsterdam `nl-ams2`, Paris `fr-par1`, Kioubit `AS4242423914`, Natlan `AS4242420028`), establishing additional WireGuard tunnels, and refreshing ROA validation tables. Scripts include `autopeer_flipflap.py`, `autopeer_kioubit.py`, and `autopeer_natlan.py`.
+   - `dn42-auto-peer.service` runs continuously in the background, checking upstream git sync on community nodes (FlipFlap, Kioubit, Natlan, Sabrina, Headscarf), establishing additional WireGuard tunnels, and refreshing ROA validation tables. Tooling suite in `bin/` includes `autopeer_flipflap.py`, `autopeer_kioubit.py`, `autopeer_natlan.py`, `autopeer_sabrina.py`, and `autopeer_headscarf.py`.
 
 ## Nix packaging
 
