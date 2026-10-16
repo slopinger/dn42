@@ -95,22 +95,39 @@ class Client:
         print(f"[+] Reached {u}")
         return html
 
+    def create_session(self, node="de-fra03", local_port=20842):
+        print(f"[*] Loading session creation form for {node}...")
+        u, html = self.get("https://peer.headscarf175.net/sessions/create", referer="https://peer.headscarf175.net/")
+        csrf_token = re.search(r'name="_token" value="([^"]+)"', html).group(1)
+        
+        post_data = {
+            "_token": csrf_token,
+            "node": node,
+            "transport": "wireguard",
+            "wg_pubkey": MY_PUBKEY,
+            "endpoint_host": MY_IP,
+            "endpoint_port": str(local_port),
+            "link_local": MY_LL,
+            "local_link_local": "fe80::842",
+            "ipv4_enh": "1",
+            "ipv6_only": "0",
+            "policy": "full",
+            "strict_local_role": "0"
+        }
+        print(f"[*] Submitting session to {node} with data:\n{json.dumps(post_data, indent=2)}")
+        u, resp_html = self.post("https://peer.headscarf175.net/sessions", post_data, referer="https://peer.headscarf175.net/sessions/create")
+        print(f"[+] Post-submit URL: {u}")
+        return u, resp_html
+
 def main():
     cli = Client()
     cli.login_headscarf()
-    u, html = cli.get("https://peer.headscarf175.net/sessions/create", referer="https://peer.headscarf175.net/")
-    
-    # Extract CSRF token
-    csrf_token = re.search(r'name="_token" value="([^"]+)"', html).group(1)
-    print(f"[*] Headscarf CSRF token: {csrf_token}")
-    
-    # Find node info blocks
-    for m in re.finditer(r'<div class="node-info" data-node="([^"]+)".*?</table>', html, re.DOTALL):
-        node = m.group(1)
-        block = m.group(0)
-        clean = re.sub(r'<[^>]+>', ' ', block)
-        clean = ' '.join(clean.split())
-        print(f"Node: {node} -> {clean[:300]}")
+    u, html = cli.create_session("de-fra03", local_port=20842)
+    print("Result HTML snippet:")
+    for line in html.splitlines():
+        if any(x in line for x in ("flash", "error", "notice", "alert", "de-fra03", "wireguard", "Endpoint", "20125")):
+            print("  ", line.strip())
 
 if __name__ == "__main__":
     main()
+
