@@ -412,6 +412,84 @@
     "method": "github_pr",
     "repo": "https://github.com/jlu5/ansible-dn42",
     "pr": "https://github.com/jlu5/ansible-dn42/pull/172"
+  },
+  {
+    "name": "whojk_hk",
+    "asn": "4242422717",
+    "network": "JK-Network (Hong Kong)",
+    "endpoint": "hk.vm.whojk.com:23952",
+    "pubkey": "lEB6wKQMqVYbLalwPHHSxL4YhGXOV/w3oG6wQaLB10s=",
+    "peer_ll_v6": "fe80::2717",
+    "my_ll_v6": "fe80::125",
+    "port": 22717,
+    "status": "established",
+    "method": "autopeer_ssh_sig",
+    "portal": "https://hk42.whojk.com/autopeer/"
+  },
+  {
+    "name": "whojk_tw",
+    "asn": "4242422717",
+    "network": "JK-Network (Taoyuan, TW)",
+    "endpoint": "tw.vm.whojk.com:23014",
+    "pubkey": "ifN+KmnL5XLHG8nDi2nN9l26snGUP/1157p8mOSPE1c=",
+    "peer_ll_v6": "fe80::2717",
+    "my_ll_v6": "fe80::125",
+    "port": 22718,
+    "status": "established",
+    "method": "autopeer_ssh_sig",
+    "portal": "https://tw42.whojk.com/autopeer/"
+  },
+  {
+    "name": "yuyuko_us",
+    "asn": "4242421117",
+    "network": "Yuyuko Network (San Jose, US)",
+    "endpoint": "us01.dn42.yuyuko.com:20125",
+    "pubkey": "PW/+rv0B8e4tUJ9j1TWscx1sl36WwhPh9adEqoM7Jic=",
+    "peer_ll_v6": "fe80::1117",
+    "my_ll_v6": "fe80::125",
+    "port": 21120,
+    "status": "established",
+    "method": "autopeer_ssh_sig",
+    "portal": "https://peer-dn42.yuyuko.com"
+  },
+  {
+    "name": "yuyuko_jp",
+    "asn": "4242421117",
+    "network": "Yuyuko Network (Tokyo, JP)",
+    "endpoint": "jp01.dn42.yuyuko.com:20125",
+    "pubkey": "vZXB25Od9elWU4RKWp42MWNJrNtxJFgdmBkyYH/8Sj8=",
+    "peer_ll_v6": "fe80::1117",
+    "my_ll_v6": "fe80::125",
+    "port": 21121,
+    "status": "established",
+    "method": "autopeer_ssh_sig",
+    "portal": "https://peer-dn42.yuyuko.com"
+  },
+  {
+    "name": "yuyuko_hk01",
+    "asn": "4242421117",
+    "network": "Yuyuko Network (Hong Kong 1, HK)",
+    "endpoint": "hk01.dn42.yuyuko.com:20125",
+    "pubkey": "gqwdC9p6jdSy80oRxdatr9QdSrNMLCvRMadaCeOBqDY=",
+    "peer_ll_v6": "fe80::1117",
+    "my_ll_v6": "fe80::125",
+    "port": 21122,
+    "status": "established",
+    "method": "autopeer_ssh_sig",
+    "portal": "https://peer-dn42.yuyuko.com"
+  },
+  {
+    "name": "yuyuko_hk02",
+    "asn": "4242421117",
+    "network": "Yuyuko Network (Hong Kong 2, HK)",
+    "endpoint": "hk02.dn42.yuyuko.com:20125",
+    "pubkey": "bhqKLKiU0DSjlu5NN9sWk/Ft1qFaQv+aHavS2gLAK3Q=",
+    "peer_ll_v6": "fe80::1117",
+    "my_ll_v6": "fe80::125",
+    "port": 21123,
+    "status": "established",
+    "method": "autopeer_ssh_sig",
+    "portal": "https://peer-dn42.yuyuko.com"
   }
 ]
 
