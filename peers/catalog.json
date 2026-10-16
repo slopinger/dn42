@@ -150,17 +150,96 @@
     "pr": "https://github.com/pilz0/nixos-config/pull/6"
   },
   {
-    "name": "headscarf_fra",
+    "name": "headscarf_ams",
     "asn": "4242420842",
-    "network": "HEADSCARF175 (Frankfurt, DE - de-fra03)",
-    "endpoint": "de-fra03.headscarf175.net:20125",
-    "pubkey": "jD9iGC5uRbsfXyJYtR6M+hrUxuNFLNY7oW3E8KaNTCU=",
+    "network": "HEADSCARF175 (Amsterdam, NL - nl-ams01)",
+    "endpoint": "45.137.198.52:20125",
+    "pubkey": "cvouIloP++SXymKP1A/NrDPXnQvvOR1Qst+PWNPpplU=",
     "peer_ll_v6": "fe80::842",
     "my_ll_v6": "fe80::125",
     "port": 20842,
-    "status": "applying",
-    "method": "oauth_autopeer",
-    "session_id": 519
+    "status": "established"
+  },
+  {
+    "name": "nedifinita_de1",
+    "asn": "4242420454",
+    "network": "Nedifinita Network (Falkenstein, DE - de1)",
+    "endpoint": "[2001:470:1f0b:ff:1::8f]:30125",
+    "pubkey": "q9+7MHvWmWO18uZ0RfNNLNAgUWhqs+zA1zBoWv9r23U=",
+    "peer_ll_v6": "fe80::454",
+    "my_ll_v6": "fe80::125",
+    "port": 20454,
+    "status": "established"
+  },
+  {
+    "name": "nedifinita_nl0",
+    "asn": "4242420454",
+    "network": "Nedifinita Network (Amsterdam, NL - nl0)",
+    "endpoint": "143.20.154.8:30125",
+    "pubkey": "ocxC+26M4aZtQqUVyaPHetGMjRj4VnIUgo3DCu9e1W0=",
+    "peer_ll_v6": "fe80::454",
+    "my_ll_v6": "fe80::125",
+    "port": 20455,
+    "status": "established"
+  },
+  {
+    "name": "andyyjf_fra",
+    "asn": "4242422921",
+    "network": "AndyYJF Network (Frankfurt, DE - fra)",
+    "endpoint": "156.226.175.73:20125",
+    "pubkey": "wZ939wRW+xLa1VV2STTxF4oss7UxqNJCZzEUEJ5ImRM=",
+    "peer_ll_v6": "fe80::2921",
+    "my_ll_v6": "fe80::125",
+    "port": 22921,
+    "status": "established"
+  },
+  {
+    "name": "andyyjf_lax",
+    "asn": "4242422921",
+    "network": "AndyYJF Network (Los Angeles, US - lax)",
+    "endpoint": "45.202.243.95:20125",
+    "pubkey": "ki4mnFa0PeY7SY9OlZdS6Tw9k5Xdgq/PdYVOef2SSBc=",
+    "peer_ll_v6": "fe80::2921",
+    "my_ll_v6": "fe80::125",
+    "port": 22922,
+    "status": "established"
+  },
+  {
+    "name": "nyaw_tyo1",
+    "asn": "4242420291",
+    "network": "Nyaw Network (Tokyo, JP - tyo1)",
+    "endpoint": "jp-tyo-1.dn42.nyaw.xyz:20125",
+    "pubkey": "bcLlkZuVAw3izWfscZvB+hR9xtsGthyTbtZ4CULSJH0=",
+    "peer_ll_v6": "fe80::fcde:3243",
+    "my_ll_v6": "fe80::fcde:319d",
+    "port": 20291,
+    "status": "established"
+  },
+  {
+    "name": "iris_ams01",
+    "asn": "4242421023",
+    "network": "IRIS-AS (Amsterdam, NL - ams-01)",
+    "endpoint": "[2001:bc8:1640:5afb:dc00:ff:fe60:6beb]:20125",
+    "pubkey": "EERaAzJ1oDMhWZCMIWbK4Gd523BDM2YlV1O7AB1th1Y=",
+    "peer_ll_v6": "fe80::1023:2",
+    "my_ll_v6": "fe80::125",
+    "port": 21023,
+    "status": "established",
+    "method": "autopeer_pr",
+    "repo": "https://github.com/OwO-Intranet-Services/dn42-network",
+    "pr": "https://github.com/OwO-Intranet-Services/dn42-network/pull/177"
+  },
+  {
+    "name": "moe233_ams",
+    "asn": "4242420253",
+    "network": "moe233 (Amsterdam, NL - ams)",
+    "endpoint": "[2001:bc8:1640:5bb5:dc00:ff:fe60:c33f]:20125",
+    "pubkey": "vRRfNnGL7jpKGBJjLZg612vHQulDOtICkgXCC++1+2g=",
+    "peer_ll_v6": "fe80::253",
+    "my_ll_v6": "fe80::125",
+    "port": 20253,
+    "status": "established",
+    "method": "ssh_autopeer"
   },
   {
     "name": "0pera_de",
@@ -175,6 +254,33 @@
     "method": "github_pr",
     "repo": "https://github.com/0pera/dn42-peering",
     "pr": "https://github.com/0pera/dn42-peering/pull/1"
+  },
+  {
+    "name": "maiyun_ca04",
+    "asn": "4242420893",
+    "network": "Maiyun-dn42 (Toronto, CA - ca04)",
+    "endpoint": "[2603:c021:2:fe03::5]:24201",
+    "pubkey": "JNeDKA835kWWa0UIF5mHgeI7jX4hA42SbHMFQug9wSk=",
+    "peer_ll_v6": "fe80::893",
+    "my_ll_v6": "fe80::125",
+    "port": 20893,
+    "status": "pending_pr",
+    "method": "github_pr",
+    "repo": "https://github.com/myzhang1029/dn42-config-pub",
+    "pr": "https://github.com/myzhang1029/dn42-config-pub/pull/25"
+  },
+  {
+    "name": "zebreus",
+    "asn": "4242421403",
+    "network": "AS-ANTIBUILDING-DN42 (Falkenstein/Nuremberg, DE - kashenblade)",
+    "endpoint": "167.235.154.30",
+    "peer_ll_v6": "fe80::1234:9320",
+    "my_ll_v6": "fe80::125",
+    "port": 21403,
+    "status": "requested",
+    "method": "github_issue",
+    "repo": "https://github.com/zebreus/nixos-config",
+    "issue": "https://github.com/zebreus/nixos-config/issues/7"
   },
   {
     "name": "natlan_fra",
