@@ -164,12 +164,16 @@ dn42ctl update-roa
    - **Nyaw Tokyo** (`AS4242420291`, `jp-tyo-1.dn42.nyaw.xyz:20125`): WireGuard port 20291, BGP Established (`dn42_nyaw_tyo1`, ~219ms).
    - **IRIS-AS Amsterdam** (`AS4242421023`, `[2001:bc8:1640:5afb:dc00:ff:fe60:6beb]:20125`): WireGuard port 21023, BGP Established (`dn42_iris_ams01`, ~17.8ms, 1,443 v4 / 1,338 v6 routes, PR #177 applied).
    - **moe233 Amsterdam** (`AS4242420253`, `[2001:bc8:1640:5bb5:dc00:ff:fe60:c33f]:20125`): WireGuard port 20253, BGP Established (`dn42_moe233_ams`, ~18ms, 1,431 v4 / 1,340 v6 routes).
+   - **KSKB Neo Amsterdam** (`AS4201271111`, `20.54.218.128:25026`): WireGuard port 21817, BGP Established (`dn42_kskb_nl`, ~10ms, 1,191 v4 / 1,163 v6 routes).
+   - **KSKB Neo Zurich** (`AS4201271111`, `20.203.134.45:1029`): WireGuard port 21818, BGP Established (`dn42_kskb_ch`, ~14ms).
+   - **KSKB Neo Toronto** (`AS4201271111`, `20.48.129.103:13057`): WireGuard port 21819, BGP Established (`dn42_kskb_ca`, ~90ms).
+   - **KSKB Neo US West** (`AS4201271111`, `20.190.10.218:1025`): WireGuard port 21820, BGP Established (`dn42_kskb_usw`, ~145ms).
    - **Zebreus** (`AS4242421403`, Falkenstein/Nuremberg): Peering request opened on GitHub Issue [zebreus/nixos-config#7](https://github.com/zebreus/nixos-config/issues/7). Port 21403 reserved.
    - **Maiyun** (`AS4242420893`, Toronto): WireGuard port 20893, PR [myzhang1029/dn42-config-pub#25](https://github.com/myzhang1029/dn42-config-pub/pull/25) submitted.
    - **0pera** (`AS4242423077`, Frankfurt): WireGuard port 23077, PR [0pera/dn42-peering#1](https://github.com/0pera/dn42-peering/pull/1) submitted.
    - **NATLAN** (`AS4242420028`, Frankfurt & Los Angeles): WireGuard ports 20028 & 20029 provisioned on API (requests 39 & 40).
-   - **Baragoon Frankfurt** (`AS215887`, `chr-fr01.as215887.net:20125`): WireGuard port 20125, protocol `dn42_baragoon_fra` configured.
-   - Route stats: Full table exchange with Extended Next Hop (RFC 8950), ~25,000+ paths active across 4 BIRD tables.
+   - **Baragoon Frankfurt** (`AS4242421732`, `chr-fr01.as215887.net:20125`): WireGuard port 20125, protocol `dn42_baragoon_fra` configured, PR [baragoon/dn42-as4242421732#35](https://github.com/baragoon/dn42-as4242421732/pull/35) submitted.
+   - Route stats: Full table exchange with Extended Next Hop (RFC 8950), 21 Established BGP sessions, 58,500+ paths active across 4 BIRD tables.
    - Anycast DNS Reachability: `172.20.0.53` and `fd42:d42:d42:54::1` verified with 0% packet loss (<18ms). Internal domain resolution tested (`kioubit.dn42` -> `172.20.14.43`).
 
 3. **Continuous Autopeering**:

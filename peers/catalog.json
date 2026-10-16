@@ -6,10 +6,12 @@
     "endpoint": "chr-fr01.as215887.net:20125",
     "pubkey": "SpFk6mynvJCrMvAf/uD8OOCm+2KlAb91tdXkWNbbNV8=",
     "peer_ll_v6": "fe80::1732",
-    "my_ll_v6": "fe80::2",
+    "my_ll_v6": "fe80::125",
     "port": 20125,
+    "status": "pending_pr",
     "method": "github_pr",
-    "repo": "https://github.com/baragoon/dn42-as4242421732"
+    "repo": "https://github.com/baragoon/dn42-as4242421732",
+    "pr": "https://github.com/baragoon/dn42-as4242421732/pull/35"
   },
   {
     "name": "baragoon_ams",
@@ -305,5 +307,57 @@
     "port": 20029,
     "status": "provisioned",
     "request_id": 40
+  },
+  {
+    "name": "kskb_nl",
+    "asn": "4201271111",
+    "network": "KSKB Neo (Amsterdam, NL)",
+    "endpoint": "20.54.218.128:25026",
+    "pubkey": "9pNKpUdPSERqELcTCcvOLSeZsSSyw3kNFYmZ7epZZ0k=",
+    "peer_ll_v6": "fe80::1111",
+    "my_ll_v6": "fe80::125",
+    "port": 21817,
+    "status": "established",
+    "method": "autopeer_ssh_sig",
+    "portal": "https://neonl42.kskb.eu.org/autopeer/"
+  },
+  {
+    "name": "kskb_ch",
+    "asn": "4201271111",
+    "network": "KSKB Neo (Zurich, CH)",
+    "endpoint": "20.203.134.45:1029",
+    "pubkey": "YnoqhBTjO0+2vj/1lXqzOmvKeCwZ4q3BJzNyxN/zQ00=",
+    "peer_ll_v6": "fe80::1111",
+    "my_ll_v6": "fe80::125",
+    "port": 21818,
+    "status": "established",
+    "method": "autopeer_ssh_sig",
+    "portal": "https://neoch42.kskb.eu.org/autopeer/"
+  },
+  {
+    "name": "kskb_ca",
+    "asn": "4201271111",
+    "network": "KSKB Neo (Toronto, CA)",
+    "endpoint": "20.48.129.103:13057",
+    "pubkey": "2FSX+6N/PwfipN/jXMj++4mabFQj25MXDy51mnnz3AA=",
+    "peer_ll_v6": "fe80::1111",
+    "my_ll_v6": "fe80::125",
+    "port": 21819,
+    "status": "established",
+    "method": "autopeer_ssh_sig",
+    "portal": "https://neoca42.kskb.eu.org/autopeer/"
+  },
+  {
+    "name": "kskb_usw",
+    "asn": "4201271111",
+    "network": "KSKB Neo (Washington, US)",
+    "endpoint": "20.190.10.218:1025",
+    "pubkey": "ffcWCDuBP3YdufFzOaiW2QeZLFG/GXg4QfbWTZ6LVz8=",
+    "peer_ll_v6": "fe80::1111",
+    "my_ll_v6": "fe80::125",
+    "port": 21820,
+    "status": "established",
+    "method": "autopeer_ssh_sig",
+    "portal": "https://neousw42.kskb.eu.org/autopeer/"
   }
 ]
