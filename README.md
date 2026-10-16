@@ -147,9 +147,12 @@ dn42ctl update-roa
    - Objects: `AS4242420125`, `172.22.64.128/27`, `fdd4:af47:dcfa::/48`, `SLOP-MNT`, `SLOP-DN42`.
 
 2. **Active Backbone Peerings**:
-   - **FlipFlap Warsaw** (`pl-waw1.flap42.eu`): WireGuard on port 20266, BGP Established (`dn42_flipflap_waw`).
-   - **FlipFlap Frankfurt** (`de-fra1.flap42.eu`): WireGuard on port 20263, BGP Established (`dn42_flipflap_fra`).
-   - Route stats: Exchanging 2,893 IPv4 paths and 2,651 IPv6 paths across 1,447 global DN42 networks. Extended Next Hop (RFC 8950) active.
+   - **FlipFlap Frankfurt** (`de-fra1.flap42.eu`): WireGuard port 20263, BGP Established (`dn42_flipflap_fra`, ~11ms).
+   - **FlipFlap Warsaw** (`pl-waw1.flap42.eu`): WireGuard port 20266, BGP Established (`dn42_flipflap_waw`, ~21ms).
+   - **Kioubit Nuremberg** (`de2.g-load.eu`): WireGuard port 20391, BGP Established (`dn42_kioubit_de2`, ~17ms).
+   - **Kioubit Paris** (`fr1.g-load.eu`): WireGuard port 20392, BGP Established (`dn42_kioubit_fr1`, ~19ms).
+   - Route stats: Exchanging 5,403 IPv4 paths and 5,221 IPv6 paths across 1,450 global DN42 networks. Extended Next Hop (RFC 8950) active.
+   - Anycast DNS Reachability: `172.20.0.53` and `fd42:d42:d42:54::1` verified with 0% packet loss (<18ms).
 
 3. **Continuous Autopeering**:
    - `dn42-auto-peer.service` runs continuously in the background, checking upstream git sync on community nodes (FlipFlap Amsterdam `nl-ams2`, Paris `fr-par1`, Kioubit `AS4242423914`, Natlan `AS4242420028`), establishing additional WireGuard tunnels, and refreshing ROA validation tables.
