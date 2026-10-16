@@ -8,7 +8,7 @@
     "peer_ll_v6": "fe80::1732",
     "my_ll_v6": "fe80::125",
     "port": 20125,
-    "status": "pending_pr",
+    "status": "established",
     "method": "github_pr",
     "repo": "https://github.com/baragoon/dn42-as4242421732",
     "pr": "https://github.com/baragoon/dn42-as4242421732/pull/35"
@@ -266,7 +266,7 @@
     "peer_ll_v6": "fe80::893",
     "my_ll_v6": "fe80::125",
     "port": 20893,
-    "status": "pending_pr",
+    "status": "established",
     "method": "github_pr",
     "repo": "https://github.com/myzhang1029/dn42-config-pub",
     "pr": "https://github.com/myzhang1029/dn42-config-pub/pull/25"
@@ -594,5 +594,32 @@
     "status": "established",
     "method": "autopeer_iedon",
     "portal": "https://iedon.net"
+  },
+  {
+    "name": "scarjit_de",
+    "asn": "4242420257",
+    "network": "SCARJIT Network (Germany - nephthys)",
+    "endpoint": "[2a0a:a543:d3f3:80:be24:11ff:fe5d:a0dc]:51820",
+    "pubkey": "BsU2BEUpd6aqPqCAyU5kFakuOPRi8i5Ou6v6WJKXEXY=",
+    "peer_ll_v6": "fe80::257",
+    "my_ll_v6": "fe80::125",
+    "port": 20257,
+    "status": "requested",
+    "method": "github_issue",
+    "repo": "https://github.com/Scarjit/dn42-setup",
+    "issue": "https://github.com/Scarjit/dn42-setup/issues/3"
+  },
+  {
+    "name": "joyfulreaper_wurstcase",
+    "asn": "4242420425",
+    "network": "JoyfulReaper (Frankfurt, DE - Wurstcase)",
+    "endpoint": "pending_approval",
+    "pubkey": "pending_approval",
+    "peer_ll_v6": "fe80::425",
+    "my_ll_v6": "fe80::125",
+    "port": 20425,
+    "status": "requested",
+    "method": "dn42_portal",
+    "portal": "http://[fdf0:e12c:5528::50]/"
   }
 ]

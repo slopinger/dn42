@@ -146,7 +146,7 @@ dn42ctl update-roa
    - Status: **MERGED** into `dn42registry/master` on 2026-10-15 (commit `4513a83f3`).
    - Objects: `AS4242420125`, `172.22.64.128/27`, `fdd4:af47:dcfa::/48`, `SLOP-MNT`, `SLOP-DN42`.
 
-2. **Active Backbone Peerings (38 Established BGP Sessions)**:
+2. **Active Backbone Peerings (39 Established BGP Sessions)**:
    - **iEdon-Net Nürnberg** (`AS4242422189`, `de-nue.dn42.iedon.net:32769`): WireGuard port 22189, BGP Established (`dn42_iedon_nue`, ~15ms, 1,280 v4 / 1,227 v6 routes).
    - **iEdon-Net Amsterdam** (`AS4242422189`, `nl-ams.dn42.iedon.net:41254`): WireGuard port 22190, BGP Established (`dn42_iedon_ams`, ~21ms, 1,280 v4 / 1,227 v6 routes).
    - **iEdon-Net Paris** (`AS4242422189`, `fr-cdg.dn42.iedon.net:57008`): WireGuard port 22191, BGP Established (`dn42_iedon_cdg`, ~18ms, 1,280 v4 / 1,227 v6 routes).
@@ -183,15 +183,17 @@ dn42ctl update-roa
    - **Yuyuko Network Tokyo** (`AS4242421117`, `jp01.dn42.yuyuko.com:20125`): WireGuard port 21121, BGP Established (`dn42_yuyuko_jp`, ~242ms).
    - **Yuyuko Network Hong Kong 1** (`AS4242421117`, `hk01.dn42.yuyuko.com:20125`): WireGuard port 21122, BGP Established (`dn42_yuyuko_hk01`, ~242ms).
    - **Yuyuko Network Hong Kong 2** (`AS4242421117`, `hk02.dn42.yuyuko.com:20125`): WireGuard port 21123, BGP Established (`dn42_yuyuko_hk02`, ~252ms).
-   - **JK-Network Hong Kong** (`AS4242422717`, `hk.vm.whojk.com:23952`): WireGuard port 22717, BGP Established (`dn42_whojk_hk`, ~230ms, 339 v4 / 349 v6 routes).
+   - **JK-Network Hong Kong** (`AS4242422717`, `hk.vm.whojk.com:23952`): WireGuard port 22717, configured (`dn42_whojk_hk`, upstream host unreachable).
    - **JK-Network Taiwan** (`AS4242422717`, `tw.vm.whojk.com:23014`): WireGuard port 22718, BGP Established (`dn42_whojk_tw`, ~190ms, 1,318 v4 / 1,339 v6 routes).
+   - **Maiyun** (`AS4242420893`, Toronto): WireGuard port 20893, BGP Established (`dn42_maiyun_ca04`, PR [myzhang1029/dn42-config-pub#25](https://github.com/myzhang1029/dn42-config-pub/pull/25) merged).
+   - **Baragoon Frankfurt** (`AS4242421732`, `chr-fr01.as215887.net:20125`): WireGuard port 20125, BGP Established (`dn42_baragoon_fra`, PR [baragoon/dn42-as4242421732#35](https://github.com/baragoon/dn42-as4242421732/pull/35) merged).
    - **HIGHDEF-AS Frankfurt** (`AS4242421080`, `fra.peer.highdef.network:20125`): WireGuard port 21080, PR [jlu5/ansible-dn42#172](https://github.com/jlu5/ansible-dn42/pull/172) open, ~4.5ms.
    - **Zebreus** (`AS4242421403`, Falkenstein/Nuremberg): Peering request opened on GitHub Issue [zebreus/nixos-config#7](https://github.com/zebreus/nixos-config/issues/7). Port 21403 reserved.
-   - **Maiyun** (`AS4242420893`, Toronto): WireGuard port 20893, PR [myzhang1029/dn42-config-pub#25](https://github.com/myzhang1029/dn42-config-pub/pull/25) submitted.
+   - **SCARJIT Network** (`AS4242420257`, Germany): WireGuard port 20257, BGP session configured, peering request opened on GitHub Issue [Scarjit/dn42-setup#3](https://github.com/Scarjit/dn42-setup/issues/3).
+   - **JoyfulReaper** (`AS4242420425`, Wurstcase Frankfurt / Clanker NY): WireGuard port 20425 reserved, peering request submitted via DN42 internal portal `joyfulreaper.dn42` (`http://[fdf0:e12c:5528::50]/`).
    - **0pera** (`AS4242423077`, Frankfurt): WireGuard port 23077, PR [0pera/dn42-peering#1](https://github.com/0pera/dn42-peering/pull/1) submitted.
    - **NATLAN** (`AS4242420028`, Frankfurt & Los Angeles): WireGuard ports 20028 & 20029 provisioned on API (requests 39 & 40).
-   - **Baragoon Frankfurt** (`AS4242421732`, `chr-fr01.as215887.net:20125`): WireGuard port 20125, protocol `dn42_baragoon_fra` configured, PR [baragoon/dn42-as4242421732#35](https://github.com/baragoon/dn42-as4242421732/pull/35) submitted.
-   - Route stats: Full table exchange with Extended Next Hop (RFC 8950), 38 Established BGP sessions, 95,690+ routes active across 4 tables (master4, master6, ROAv4, ROAv6).
+   - Route stats: Full table exchange with Extended Next Hop (RFC 8950), 39 Established BGP sessions, 101,470+ routes active across 4 tables (master4, master6, ROAv4, ROAv6).
    - Anycast DNS Reachability: `172.20.0.53` and `fd42:d42:d42:54::1` verified with 0% packet loss (<18ms). Internal domain resolution tested (`kioubit.dn42` -> `172.20.14.43`, `burble.dn42` -> `172.20.129.3`).
 
 3. **Continuous Autopeering**:
