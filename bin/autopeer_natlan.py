@@ -103,25 +103,21 @@ def authenticate():
     app_res = api_post("https://auth.natlan.io/api/v1/oauth/approve", approve_data, token=auth_token)
     redirect_to = app_res["redirect_to"]
 
-    log("Step 8: Following callback redirect for handoff token...")
-    opener = urllib.request.build_opener(NoRedirect)
-    curr_url = redirect_to
-    handoff = None
-    while curr_url:
-        try:
-            req = urllib.request.Request(curr_url, headers={"User-Agent": USER_AGENT})
-            opener.open(req)
-            curr_url = None
-        except urllib.error.HTTPError as e:
-            loc = e.headers.get("Location", "")
-            m = re.search(r"handoff=([^&]+)", loc)
-            if m:
-                handoff = m.group(1)
-                break
-            curr_url = loc
-
-    if not handoff:
-        raise RuntimeError(f"Could not extract handoff token from {redirect_to}")
+    log("Step 8: Fetching callback redirect for handoff token via curl...")
+    proc = subprocess.run(
+        ["curl", "-s", "-i", "-H", f"User-Agent: {USER_AGENT}", redirect_to],
+        capture_output=True, text=True, check=True
+    )
+    loc_matches = re.findall(r"location:\s*([^\r\n]+)", proc.stdout, re.IGNORECASE)
+    if not loc_matches:
+        raise RuntimeError(f"No Location header found in callback response:\n{proc.stdout}")
+    
+    cb_loc = loc_matches[0]
+    log(f"Callback redirected to: {cb_loc}")
+    m = re.search(r"handoff=([^&]+)", cb_loc)
+    if not m:
+        raise RuntimeError(f"Could not extract handoff token from {cb_loc}")
+    handoff = m.group(1)
 
     log(f"Step 9: Exchanging handoff token for session token...")
     ex_res = api_post("https://api.natlan.io/control/v1/autopeering/auth/exchange", {"handoff": handoff})
