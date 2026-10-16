@@ -146,22 +146,30 @@ dn42ctl update-roa
    - Status: **MERGED** into `dn42registry/master` on 2026-10-15 (commit `4513a83f3`).
    - Objects: `AS4242420125`, `172.22.64.128/27`, `fdd4:af47:dcfa::/48`, `SLOP-MNT`, `SLOP-DN42`.
 
-2. **Active Backbone Peerings**:
-   - **FlipFlap Frankfurt** (`de-fra1.flap42.eu`): WireGuard port 20263, BGP Established (`dn42_flipflap_fra`, ~11ms).
-   - **FlipFlap Warsaw** (`pl-waw1.flap42.eu`): WireGuard port 20266, BGP Established (`dn42_flipflap_waw`, ~21ms).
-   - **Kioubit Nuremberg** (`de2.g-load.eu`): WireGuard port 20391, BGP Established (`dn42_kioubit_de2`, ~17ms).
-   - **Kioubit Paris** (`fr1.g-load.eu`): WireGuard port 20392, BGP Established (`dn42_kioubit_fr1`, ~19ms).
-   - **Kioubit London** (`uk1.g-load.eu`): WireGuard port 20393, BGP Established (`dn42_kioubit_uk1`, ~16ms).
-   - **RoutedBits Amsterdam** (`router.ams1.routedbits.com`): WireGuard port 20208, BGP Established (`dn42_routedbits_ams`, ~8ms).
-   - **RoutedBits Frankfurt** (`router.fra1.routedbits.com`): WireGuard port 20207, BGP Established (`dn42_routedbits_fra`, ~4ms).
-   - **Pilz** (`AS4242420663`, Amsterdam `94.142.240.36:125`): WireGuard port 20663, BGP Established (`dn42_pilz`, PR pilz0/nixos-config#6 merged/applied).
-   - **Sabrina** (`AS4242421810`, Frankfurt `de42.sabrinaishere.party:20125`): WireGuard port 21810, BGP Established (`dn42_sabrina_de`, ~20ms, 1,449 v4 / 1,342 v6 routes).
-   - **HEADSCARF175** (`AS4242420842`, Frankfurt `de-fra03.headscarf175.net:20125`): WireGuard port 20842, session 519 applying on portal.
-   - **0pera** (`AS4242423077`, Frankfurt `de-1.dn42.ferrets.space:20125`): WireGuard port 23077, GitHub PR #1 opened.
-   - **NATLAN Frankfurt** (`AS4242420028`, `fra1.edge.ngworks.org:51804`): WireGuard port 20028, provisioned on NATLAN API (request 39).
-   - **NATLAN Los Angeles** (`AS4242420028`, `lax1.edge.ngworks.org:51807`): WireGuard port 20029, provisioned on NATLAN API (request 40).
+2. **Active Backbone Peerings (17 Established BGP Sessions)**:
+   - **FlipFlap Frankfurt** (`AS4242420263`, `de-fra1.flap42.eu`): WireGuard port 20263, BGP Established (`dn42_flipflap_fra`, ~11ms).
+   - **FlipFlap Warsaw** (`AS4242420263`, `pl-waw1.flap42.eu`): WireGuard port 20266, BGP Established (`dn42_flipflap_waw`, ~21ms).
+   - **Kioubit Nuremberg** (`AS4242423914`, `de2.g-load.eu`): WireGuard port 20391, BGP Established (`dn42_kioubit_de2`, ~17ms).
+   - **Kioubit Paris** (`AS4242423914`, `fr1.g-load.eu`): WireGuard port 20392, BGP Established (`dn42_kioubit_fr1`, ~19ms).
+   - **Kioubit London** (`AS4242423914`, `uk1.g-load.eu`): WireGuard port 20393, BGP Established (`dn42_kioubit_uk1`, ~16ms).
+   - **RoutedBits Amsterdam** (`AS4242420207`, `router.ams1.routedbits.com`): WireGuard port 20208, BGP Established (`dn42_routedbits_ams`, ~8ms).
+   - **RoutedBits Frankfurt** (`AS4242420207`, `router.fra1.routedbits.com`): WireGuard port 20207, BGP Established (`dn42_routedbits_fra`, ~4ms).
+   - **Pilz** (`AS4242420663`, `94.142.240.36:125`): WireGuard port 20663, BGP Established (`dn42_pilz`, PR pilz0/nixos-config#6 merged).
+   - **Sabrina** (`AS4242421810`, `de42.sabrinaishere.party:20125`): WireGuard port 21810, BGP Established (`dn42_sabrina_de`, ~20ms).
+   - **HEADSCARF175 Amsterdam** (`AS4242420842`, `45.137.198.52:20125`): WireGuard port 20842, BGP Established (`dn42_headscarf_ams`, ~5.3ms, 1,290 v4 / 1,250 v6 routes).
+   - **Nedifinita Falkenstein** (`AS4242420454`, `[2001:470:1f0b:ff:1::8f]:30125`): WireGuard port 20454, BGP Established (`dn42_nedifinita_de1`, ~14ms, 1,336 v4 / 1,321 v6 routes).
+   - **Nedifinita Amsterdam** (`AS4242420454`, `143.20.154.8:30125`): WireGuard port 20455, BGP Established (`dn42_nedifinita_nl0`, ~9.9ms, 1,338 v4 / 1,332 v6 routes).
+   - **AndyYJF Frankfurt** (`AS4242422921`, `156.226.175.73:20125`): WireGuard port 22921, BGP Established (`dn42_andyyjf_fra`, ~4ms, 1,380 v4 / 1,254 v6 routes).
+   - **AndyYJF Los Angeles** (`AS4242422921`, `45.202.243.95:20125`): WireGuard port 22922, BGP Established (`dn42_andyyjf_lax`, ~149ms, 1,421 v4 / 1,274 v6 routes).
+   - **Nyaw Tokyo** (`AS4242420291`, `jp-tyo-1.dn42.nyaw.xyz:20125`): WireGuard port 20291, BGP Established (`dn42_nyaw_tyo1`, ~219ms).
+   - **IRIS-AS Amsterdam** (`AS4242421023`, `[2001:bc8:1640:5afb:dc00:ff:fe60:6beb]:20125`): WireGuard port 21023, BGP Established (`dn42_iris_ams01`, ~17.8ms, 1,443 v4 / 1,338 v6 routes, PR #177 applied).
+   - **moe233 Amsterdam** (`AS4242420253`, `[2001:bc8:1640:5bb5:dc00:ff:fe60:c33f]:20125`): WireGuard port 20253, BGP Established (`dn42_moe233_ams`, ~18ms, 1,431 v4 / 1,340 v6 routes).
+   - **Zebreus** (`AS4242421403`, Falkenstein/Nuremberg): Peering request opened on GitHub Issue [zebreus/nixos-config#7](https://github.com/zebreus/nixos-config/issues/7). Port 21403 reserved.
+   - **Maiyun** (`AS4242420893`, Toronto): WireGuard port 20893, PR [myzhang1029/dn42-config-pub#25](https://github.com/myzhang1029/dn42-config-pub/pull/25) submitted.
+   - **0pera** (`AS4242423077`, Frankfurt): WireGuard port 23077, PR [0pera/dn42-peering#1](https://github.com/0pera/dn42-peering/pull/1) submitted.
+   - **NATLAN** (`AS4242420028`, Frankfurt & Los Angeles): WireGuard ports 20028 & 20029 provisioned on API (requests 39 & 40).
    - **Baragoon Frankfurt** (`AS215887`, `chr-fr01.as215887.net:20125`): WireGuard port 20125, protocol `dn42_baragoon_fra` configured.
-   - Route stats: Exchanging 12,262 IPv4 paths and 11,773 IPv6 paths across 1,450 global DN42 networks. Extended Next Hop (RFC 8950) active. Total 29,726 routing table entries across 4 BIRD tables.
+   - Route stats: Full table exchange with Extended Next Hop (RFC 8950), ~25,000+ paths active across 4 BIRD tables.
    - Anycast DNS Reachability: `172.20.0.53` and `fd42:d42:d42:54::1` verified with 0% packet loss (<18ms). Internal domain resolution tested (`kioubit.dn42` -> `172.20.14.43`).
 
 3. **Continuous Autopeering**:
