@@ -146,7 +146,15 @@ dn42ctl update-roa
    - Status: **MERGED** into `dn42registry/master` on 2026-10-15 (commit `4513a83f3`).
    - Objects: `AS4242420125`, `172.22.64.128/27`, `fdd4:af47:dcfa::/48`, `SLOP-MNT`, `SLOP-DN42`.
 
-2. **Active Backbone Peerings (30 Established BGP Sessions)**:
+2. **Active Backbone Peerings (38 Established BGP Sessions)**:
+   - **iEdon-Net Nürnberg** (`AS4242422189`, `de-nue.dn42.iedon.net:32769`): WireGuard port 22189, BGP Established (`dn42_iedon_nue`, ~15ms, 1,280 v4 / 1,227 v6 routes).
+   - **iEdon-Net Amsterdam** (`AS4242422189`, `nl-ams.dn42.iedon.net:41254`): WireGuard port 22190, BGP Established (`dn42_iedon_ams`, ~21ms, 1,280 v4 / 1,227 v6 routes).
+   - **iEdon-Net Paris** (`AS4242422189`, `fr-cdg.dn42.iedon.net:57008`): WireGuard port 22191, BGP Established (`dn42_iedon_cdg`, ~18ms, 1,280 v4 / 1,227 v6 routes).
+   - **iEdon-Net London** (`AS4242422189`, `uk-lon.dn42.iedon.net:49994`): WireGuard port 22192, BGP Established (`dn42_iedon_lon`, ~21ms, 1,280 v4 / 1,227 v6 routes).
+   - **iEdon-Net Warsaw** (`AS4242422189`, `pl-waw.dn42.iedon.net:40928`): WireGuard port 22193, BGP Established (`dn42_iedon_waw`, ~20ms, 1,280 v4 / 1,227 v6 routes).
+   - **iEdon-Net San Jose** (`AS4242422189`, `us-sjc.dn42.iedon.net:45694`): WireGuard port 22194, BGP Established (`dn42_iedon_sjc`, ~141ms, 1,280 v4 / 1,227 v6 routes).
+   - **iEdon-Net Hong Kong** (`AS4242422189`, `hk-hkg.dn42.iedon.net:46615`): WireGuard port 22195, BGP Established (`dn42_iedon_hkg`, ~197ms, 1,280 v4 / 1,227 v6 routes).
+   - **iEdon-Net Singapore** (`AS4242422189`, `sg-sin.dn42.iedon.net:32827`): WireGuard port 22196, BGP Established (`dn42_iedon_sin`, ~172ms, 1,280 v4 / 1,227 v6 routes).
    - **FlipFlap Frankfurt** (`AS4242420263`, `de-fra1.flap42.eu`): WireGuard port 20263, BGP Established (`dn42_flipflap_fra`, ~11ms).
    - **FlipFlap Warsaw** (`AS4242420263`, `pl-waw1.flap42.eu`): WireGuard port 20266, BGP Established (`dn42_flipflap_waw`, ~21ms).
    - **Kioubit Nuremberg** (`AS4242423914`, `de2.g-load.eu`): WireGuard port 20391, BGP Established (`dn42_kioubit_de2`, ~17ms).
@@ -183,8 +191,8 @@ dn42ctl update-roa
    - **0pera** (`AS4242423077`, Frankfurt): WireGuard port 23077, PR [0pera/dn42-peering#1](https://github.com/0pera/dn42-peering/pull/1) submitted.
    - **NATLAN** (`AS4242420028`, Frankfurt & Los Angeles): WireGuard ports 20028 & 20029 provisioned on API (requests 39 & 40).
    - **Baragoon Frankfurt** (`AS4242421732`, `chr-fr01.as215887.net:20125`): WireGuard port 20125, protocol `dn42_baragoon_fra` configured, PR [baragoon/dn42-as4242421732#35](https://github.com/baragoon/dn42-as4242421732/pull/35) submitted.
-   - Route stats: Full table exchange with Extended Next Hop (RFC 8950), 30 Established BGP sessions, 76,250+ paths active across master4 and master6.
-   - Anycast DNS Reachability: `172.20.0.53` and `fd42:d42:d42:54::1` verified with 0% packet loss (<18ms). Internal domain resolution tested (`kioubit.dn42` -> `172.20.14.43`).
+   - Route stats: Full table exchange with Extended Next Hop (RFC 8950), 38 Established BGP sessions, 95,690+ routes active across 4 tables (master4, master6, ROAv4, ROAv6).
+   - Anycast DNS Reachability: `172.20.0.53` and `fd42:d42:d42:54::1` verified with 0% packet loss (<18ms). Internal domain resolution tested (`kioubit.dn42` -> `172.20.14.43`, `burble.dn42` -> `172.20.129.3`).
 
 3. **Continuous Autopeering**:
    - `dn42-auto-peer.service` runs continuously in the background, checking upstream git sync on community nodes (FlipFlap, Kioubit, Natlan, Sabrina, Headscarf), establishing additional WireGuard tunnels, and refreshing ROA validation tables. Tooling suite in `bin/` includes `autopeer_flipflap.py`, `autopeer_kioubit.py`, `autopeer_natlan.py`, `autopeer_sabrina.py`, and `autopeer_headscarf.py`.
