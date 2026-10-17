@@ -126,10 +126,12 @@ def verify_bgp_and_connectivity():
     ping_ok = (code4 == 0 or code6 == 0)
     return len(established), established, ping_ok
 
+PEERS_DOC = "/home/slop/src/dn42/PEERS.md"
+
 def update_docs_and_git(peer_count, peers):
     log("Updating documentation and pushing ~/src/dn42 to origin (GitHub)...")
     try:
-        with open("/home/slop/CLAUDE.md", "r") as f:
+        with open(PEERS_DOC, "r") as f:
             content = f.read()
         
         peer_summary = f"\n- **DN42 Active Peers**: {peer_count} peers established ({', '.join(peers) if peers else 'none'}).\n"
@@ -138,12 +140,12 @@ def update_docs_and_git(peer_count, peers):
         else:
             content += peer_summary
             
-        with open("/home/slop/CLAUDE.md", "w") as f:
+        with open(PEERS_DOC, "w") as f:
             f.write(content)
-                
-        # Git commit in ~/src/dn42
-        run_cmd("git -C /home/slop/src/dn42 add -A")
-        run_cmd(f'git -C /home/slop/src/dn42 commit -m "Auto-established DN42 peering sessions ({peer_count} peers)" || true')
+
+        # Commit only the peer summary; other changes in the checkout are not ours to commit.
+        run_cmd(f"git -C /home/slop/src/dn42 add -- {PEERS_DOC}")
+        run_cmd(f'git -C /home/slop/src/dn42 commit -m "Auto-established DN42 peering sessions ({peer_count} peers)" -- {PEERS_DOC} || true')
         run_cmd("git -C /home/slop/src/dn42 push origin main || true")
         log("dn42 repo updated on GitHub (origin).")
     except Exception as e:
