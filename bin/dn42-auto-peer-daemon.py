@@ -127,7 +127,7 @@ def verify_bgp_and_connectivity():
     return len(established), established, ping_ok
 
 def update_docs_and_git(peer_count, peers):
-    log("Updating documentation and committing to internal GitLab...")
+    log("Updating documentation and pushing ~/src/dn42 to origin (GitHub)...")
     try:
         with open("/home/slop/CLAUDE.md", "r") as f:
             content = f.read()
@@ -145,7 +145,7 @@ def update_docs_and_git(peer_count, peers):
         run_cmd("git -C /home/slop/src/dn42 add -A")
         run_cmd(f'git -C /home/slop/src/dn42 commit -m "Auto-established DN42 peering sessions ({peer_count} peers)" || true')
         run_cmd("git -C /home/slop/src/dn42 push origin main || true")
-        log("Internal GitLab repo updated.")
+        log("dn42 repo updated on GitHub (origin).")
     except Exception as e:
         log(f"Error updating docs: {e}")
 
