@@ -98,7 +98,7 @@ def cmd_routes(args):
 
 def cmd_update_roa(args):
     print("Updating ROA tables...")
-    res = run("sudo /usr/local/bin/dn42-update-roa.sh", capture=False)
+    res = run("sudo systemctl start dn42-update-roa.service", capture=False)
     if res.returncode == 0:
         print("ROA tables updated successfully.")
     else:

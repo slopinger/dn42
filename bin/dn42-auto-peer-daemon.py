@@ -99,7 +99,7 @@ def setup_all_peers():
 
 def update_roa_tables():
     log("Checking/updating DN42 ROA tables...")
-    code, out, err = run_cmd("sudo /usr/local/bin/dn42-update-roa.sh")
+    code, out, err = run_cmd("sudo systemctl start dn42-update-roa.service")
     if code == 0:
         log("ROA tables updated successfully.")
     else:
