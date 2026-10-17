@@ -25,3 +25,18 @@ Keep this file and README current whenever allocation, peer tooling or operation
 - Nix: `nix build`, `nix flake check`, `nix develop`; commit `flake.lock`.
   `nixosModules.default` exports the reusable host module; see README for options and limits.
 - Never add Co-Authored-By trailers or session links to public GitHub content.
+
+## Live host (AS4242420125)
+- Registry: PR https://git.dn42.dev/dn42/registry/pulls/7531 merged on 2026-10-15 (`4513a83f3`).
+  Account `slop_freifick` on git.dn42.dev (`~/.secrets/dn42/{username,password}`; SSH via
+  `~/.ssh/id_ed25519_signing`). Registry checkout: `~/src/dn42-registry` (upstream data, not ours).
+- BIRD: `/etc/bird/bird.conf` (`/etc/bird.conf` symlink), peer snippets `/etc/bird/peers/`.
+  `dn42-dummy` is managed by networkd. Enabled: `bird`, `dn42-update-roa.timer` (hourly),
+  `dn42-auto-peer.service`. WireGuard private key `/etc/wireguard/dn42.key`; never print or commit it.
+- `dn42-auto-peer.service` runs `bin/dn42-auto-peer-daemon.py` straight from this checkout (as
+  `slop`, with the Python venv under `~/.gemini/antigravity-cli/brain/.../scratch/venv`; see
+  `systemctl cat dn42-auto-peer`). It provisions WireGuard tunnels and BIRD sessions, verifies
+  convergence, and every few minutes rewrites the summary line in `PEERS.md`, commits only that
+  file and pushes. Restart it after changing the script; never restart bird for doc changes.
+- Peer inventory, pending requests and verified anycast DNS: `PEERS.md`. Peering PR forks live in
+  `~/src/{baragoon,highdef,maiyun}-peering` (each with an `upstream` remote).
