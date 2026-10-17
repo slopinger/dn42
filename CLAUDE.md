@@ -24,4 +24,4 @@ Keep this file and README current whenever allocation, peer tooling or operation
 
 - Nix: `nix build`, `nix flake check`, `nix develop`; commit `flake.lock`.
   `nixosModules.default` exports the reusable host module; see README for options and limits.
-- Never add Co-Authored-By trailers or session links to public GitLab content.
+- Never add Co-Authored-By trailers or session links to public GitHub content.
