@@ -47,8 +47,29 @@
         [ "/etc/bird/roa_dn42.conf" "/etc/bird/roa_dn42_v6.conf" "/etc/bird/peers/*.conf" ]
         [ "${empty}" "${empty}" "${empty}" ]
         (builtins.readFile ./bird/bird.conf));
+      example = (nixpkgs.lib.nixosSystem {
+        modules = [ self.nixosModules.default {
+          nixpkgs.hostPlatform = system;
+          boot.loader.grub.enable = false;
+          fileSystems."/" = { device = "none"; fsType = "tmpfs"; };
+          system.stateVersion = "26.11";
+          services.slop-dn42 = {
+            enable = true;
+            peers.example-peer-long-name = {
+              asn = 4242420000; publicKey = "NxHkdwZPVL+3HdrHTFOslUpUckTf0dzEG9qpZ0FTBnA=";
+              endpoint = "[2001:db8::1]:20125"; listenPort = 20000; neighbor = "fe80::1";
+              extraAddresses = [ "172.22.64.129/32" ]; extraRoutes = [ "172.20.0.1" ];
+            };
+            peers.passive = { asn = 4242420001; publicKey = "2FSX+6N/PwfipN/jXMj++4mabFQj25MXDy51mnnz3AA="; listenPort = 20001; neighbor = "fe80::2"; };
+          };
+        } ];
+      }).config;
     in {
       package = self.packages.${system}.default;
+      # Generated BIRD config (syntax-checked by the bird module) and networkd units.
+      module = pkgs.linkFarm "dn42-module-example" (nixpkgs.lib.mapAttrs (_: f: f.source)
+        (nixpkgs.lib.filterAttrs (n: _: n == "bird/bird.conf" || nixpkgs.lib.hasPrefix "systemd/network/" n)
+          example.environment.etc));
       bird = pkgs.runCommand "dn42-bird-syntax" { nativeBuildInputs = [ pkgs.bird3 ]; } ''
         bird -p -c ${config}
         touch $out

@@ -210,17 +210,26 @@ x86_64/aarch64 packages are defined; x86_64 is the validation host.
 
 Import `inputs.dn42.nixosModules.default` and enable `services.slop-dn42.enable`
 for this specific ASN/allocation: forwarding, the dummy interface, BIRD and an
-hourly ROA timer. `package` overrides tooling and `peerConfig` supplies BIRD
-peer definitions. Configure WireGuard tunnels declaratively in the host, using
-runtime private-key files; no secret belongs in Nix expressions/the store.
-The module deliberately leaves WAN settings alone. ROAs live in
-`/var/lib/dn42-roa`; BIRD requires the initial download, so failure prevents
-startup rather than silently using an empty ROA set. Build-time BIRD checks use
-fixtures because runtime ROAs are not present in the store.
+hourly ROA timer. Peers are declared in `services.slop-dn42.peers.<name>`
+(`asn`, `publicKey`, optional `endpoint`, `listenPort`, `neighbor`, and optional
+`interface`, `localAddress`, `extraAddresses`, `extraRoutes`, `birdConfig`); each
+becomes a networkd WireGuard netdev/network `30-dn_<name>` and a BIRD protocol
+`dn42_<name>` from the `dnpeers` template, exactly like `dn42ctl add-peer` writes
+them on Arch. All tunnels use the runtime key `privateKeyFile`
+(`/etc/wireguard/dn42.key`); no secret belongs in Nix expressions/the store.
+`peerConfig` adds raw BIRD configuration and `package` overrides tooling.
+The module deliberately leaves WAN settings alone.
 
-The imperative `dn42ctl add-peer` and auto-peer daemon target the existing Arch
-installation; they are not enabled by the NixOS module and must not be used to
-modify declarative NixOS network configuration. Existing Arch deployment uses
+ROAs live in `/var/lib/dn42-roa`. When a download fails the updater keeps the
+cached tables; on a first boot without network it starts BIRD with empty tables,
+so every received route fails the `ROA_VALID` import check (fail closed) until
+the next hourly run succeeds. The generated BIRD configuration is checked at
+build time against empty ROA fixtures.
+
+The imperative `dn42ctl add-peer` and the auto-peering helpers target the existing
+Arch installation; on NixOS `/etc/systemd/network` is read-only, so add peers to
+the host's `services.slop-dn42.peers` instead. The auto-peer daemon is not enabled
+by the module (the host configuration runs it). Existing Arch deployment uses
 `./deploy.sh`. The daemon checks the public registry PR without credentials and
 uses its own Python interpreter for the adjacent FlipFlap helper. Previously
 committed credentials have been removed from current source; history still

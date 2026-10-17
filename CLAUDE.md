@@ -24,6 +24,9 @@ Keep this file and README current whenever allocation, peer tooling or operation
 
 - Nix: `nix build`, `nix flake check`, `nix develop`; commit `flake.lock`.
   `nixosModules.default` exports the reusable host module; see README for options and limits.
+  On NixOS, peers are declared in `services.slop-dn42.peers` (host data in nixfiles
+  `config/services/dn42/peers.nix`); `dn42ctl add-peer` only works on the Arch host.
+  `checks.module` builds an example configuration (BIRD syntax + networkd units).
 - Never add Co-Authored-By trailers or session links to public GitHub content.
 
 ## Live host (AS4242420125)
