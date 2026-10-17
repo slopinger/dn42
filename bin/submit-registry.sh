@@ -14,7 +14,7 @@ if [ "$#" -lt 1 ]; then
     echo "Steps to do beforehand:"
     echo "  1. Create an account at https://git.dn42.dev/user/sign_up"
     echo "  2. Confirm your activation email"
-    echo "  3. Add your SSH key (~/.ssh/id_ed25519_gitlab.pub or ~/.ssh/id_ed25519_signing.pub)"
+    echo "  3. Add your SSH key (~/.ssh/id_ed25519_signing.pub)"
     echo "  4. Fork https://git.dn42.dev/dn42/registry on git.dn42.dev"
     echo ""
     echo "Example:"
